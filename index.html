@@ -332,6 +332,23 @@
   .booking-btn:hover { background: var(--gold-lt); }
   .booking-note { color: rgba(255,255,255,0.4); font-size: 0.75rem; margin-top: 18px; }
 
+  .booking-actions {
+    display: flex; align-items: center; justify-content: center;
+    gap: 16px; flex-wrap: wrap;
+  }
+  .bk-btn {
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 13px 28px; font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase;
+    border: none; cursor: pointer; font-weight: 500;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+  .bk-btn:hover { transform: translateY(-2px); opacity: 0.9; }
+  .bk-wa  { background: #25D366; color: #fff; }
+  .bk-email { background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,0.4); }
+  .bk-email:hover { border-color: var(--gold-lt); color: var(--gold-lt); }
+  .bk-divider { color: rgba(255,255,255,0.3); font-size: 0.8rem; letter-spacing: 0.1em; }
+
   /* CONTACT */
   .contact-wrap { background: var(--cream); padding: 96px 48px; text-align: center; }
   .contact-input {
@@ -528,6 +545,9 @@
     }
     .form-field:last-of-type { border-bottom: none; }
     .booking-btn { padding: 18px; width: 100%; margin-top: 12px; font-size: 0.85rem; }
+    .booking-actions { flex-direction: column; width: 100%; max-width: 400px; margin: 0 auto; }
+    .bk-btn { width: 100%; justify-content: center; padding: 15px 20px; }
+    .bk-divider { order: 2; }
 
     .contact-wrap { padding: 72px 28px; }
     .faq-wrap { padding: 72px 28px; }
@@ -851,28 +871,39 @@
   <div class="booking-form">
     <div class="form-field">
       <label class="form-label">Check-in</label>
-      <input class="form-input" type="date">
+      <input class="form-input" id="bk-checkin" type="date">
     </div>
     <div class="form-field">
       <label class="form-label">Check-out</label>
-      <input class="form-input" type="date">
+      <input class="form-input" id="bk-checkout" type="date">
     </div>
     <div class="form-field">
       <label class="form-label">Guests</label>
-      <input class="form-input" type="number" min="1" max="10" placeholder="2 Guests">
+      <input class="form-input" id="bk-guests" type="number" min="1" max="10" placeholder="2">
     </div>
-    <div class="form-field">
+    <div class="form-field" style="border-right:none;">
       <label class="form-label">Room Type</label>
-      <select class="form-input" style="background:transparent; border:none; color:rgba(255,255,255,0.7);">
-        <option value="" style="background:#1C2B25;">Any Room</option>
-        <option value="pansy" style="background:#1C2B25;">The Pansy</option>
-        <option value="lilac" style="background:#1C2B25;">The Lilac</option>
-        <option value="lily" style="background:#1C2B25;">The Lily</option>
+      <select class="form-input" id="bk-room" style="background:transparent; border:none; color:rgba(255,255,255,0.7);">
+        <option value="Any Room" style="background:#1C2B25;">Any Room</option>
+        <option value="The Pansy" style="background:#1C2B25;">The Pansy</option>
+        <option value="The Lilac" style="background:#1C2B25;">The Lilac</option>
+        <option value="The Lily" style="background:#1C2B25;">The Lily</option>
       </select>
     </div>
-    <button class="booking-btn" onclick="alert('Thank you! Please call +91 91263 99328 or email us to confirm your booking.')">Check Availability</button>
   </div>
-  <p class="booking-note">Or call us directly: <a href="tel:+919126399328" style="color:var(--gold-lt);">+91 91263 99328</a></p>
+  <p style="color:rgba(255,255,255,0.4); font-size:0.75rem; margin-top:20px; margin-bottom:14px; letter-spacing:0.08em; text-transform:uppercase;">Send your inquiry via</p>
+  <div class="booking-actions">
+    <button class="bk-btn bk-wa" onclick="bookViaWhatsApp()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+      WhatsApp
+    </button>
+    <span class="bk-divider">or</span>
+    <button class="bk-btn bk-email" onclick="bookViaEmail()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      Email
+    </button>
+  </div>
+  <p class="booking-note" style="margin-top:22px;">Or call us: <a href="tel:+919126399328" style="color:var(--gold-lt);">+91 91263 99328</a></p>
 </div>
 
 <!-- CONTACT -->
@@ -1009,6 +1040,37 @@
 </footer>
 
 <script>
+  // BOOKING
+  function getBookingDetails() {
+    const checkin  = document.getElementById('bk-checkin').value;
+    const checkout = document.getElementById('bk-checkout').value;
+    const guests   = document.getElementById('bk-guests').value;
+    const room     = document.getElementById('bk-room').value;
+    if (!checkin || !checkout) {
+      alert('Please select your check-in and check-out dates.');
+      return null;
+    }
+    return { checkin, checkout, guests: guests || '2', room };
+  }
+  function bookViaWhatsApp() {
+    const d = getBookingDetails(); if (!d) return;
+    const msg = `Hello Tulip Inn! I'd like to book a stay.\n\n` +
+      `📅 Check-in: ${d.checkin}\n` +
+      `📅 Check-out: ${d.checkout}\n` +
+      `👥 Guests: ${d.guests}\n` +
+      `🛏️ Room: ${d.room}\n\n` +
+      `Please confirm availability and pricing. Thank you!`;
+    window.open('https://wa.me/919126399328?text=' + encodeURIComponent(msg), '_blank');
+  }
+  function bookViaEmail() {
+    const d = getBookingDetails(); if (!d) return;
+    const subject = `Booking Enquiry — Tulip Inn (${d.checkin} to ${d.checkout})`;
+    const body = `Hello,\n\nI would like to enquire about a booking at Tulip Inn.\n\n` +
+      `Check-in:  ${d.checkin}\nCheck-out: ${d.checkout}\nGuests:    ${d.guests}\nRoom:      ${d.room}\n\n` +
+      `Please confirm availability and share the rates.\n\nThank you!`;
+    window.location.href = `mailto:info@tulipinnharmutty.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  }
+
   // MOBILE MENU
   function toggleMobileMenu() {
     const menu = document.getElementById('mobileMenu');
