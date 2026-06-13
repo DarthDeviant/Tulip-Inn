@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tulip Inn — Harmutty, Assam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sage:    #6B9E8E;
+    --sage-lt: #A8C9BF;
+    --sage-dk: #2E5F52;
+    --cream:   #F6F1EA;
+    --warm:    #EDE5D8;
+    --gold:    #B8925A;
+    --gold-lt: #D4B483;
+    --ink:     #1C2B25;
+    --mid:     #4A5D58;
+    --white:   #FDFAF6;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 48px;
+    background: transparent;
+    transition: background 0.4s, padding 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(28, 43, 37, 0.95);
+    backdrop-filter: blur(12px);
+    padding: 14px 48px;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--gold-lt); }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 400;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold-lt); }
+  .nav-book {
+    background: var(--gold);
+    color: var(--white);
+    border: none;
+    padding: 10px 24px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+  }
+  .nav-book:hover { background: var(--gold-lt); }
+
+  /* HERO */
+  .hero {
+    height: 100vh; min-height: 640px;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(160deg, rgba(28,43,37,0.72) 0%, rgba(46,95,82,0.45) 55%, rgba(107,158,142,0.3) 100%),
+      url('https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1600&q=80') center/cover no-repeat;
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center;
+    padding: 0 24px;
+  }
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-lt);
+    margin-bottom: 20px;
+    font-weight: 400;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.0;
+    margin-bottom: 8px;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--sage-lt);
+  }
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    color: rgba(255,255,255,0.75);
+    font-style: italic;
+    font-weight: 300;
+    margin-bottom: 40px;
+    letter-spacing: 0.02em;
+  }
+  .hero-cta {
+    display: inline-flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+  }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--white);
+    padding: 15px 36px;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--gold-lt); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    padding: 14px 36px;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1.5px solid rgba(255,255,255,0.5);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--gold-lt); color: var(--gold-lt); }
+
+  .hero-scroll {
+    position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: rgba(255,255,255,0.5); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+  }
+  .scroll-line {
+    width: 1px; height: 50px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+  @keyframes scrollLine { 0%,100%{opacity:0.3;} 50%{opacity:1;} }
+
+  /* QUICK STRIP */
+  .strip {
+    background: var(--ink);
+    padding: 18px 48px;
+    display: flex; justify-content: center; gap: 60px; flex-wrap: wrap;
+  }
+  .strip-item {
+    display: flex; align-items: center; gap: 10px;
+    color: rgba(255,255,255,0.7); font-size: 0.78rem; letter-spacing: 0.06em;
+  }
+  .strip-icon { color: var(--gold-lt); font-size: 1rem; }
+
+  /* SECTION BASE */
+  .section-label {
+    font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 400; color: var(--ink); line-height: 1.15; margin-bottom: 20px;
+  }
+  .section-title em { font-style: italic; color: var(--sage-dk); }
+  .section-body { font-size: 0.95rem; line-height: 1.8; color: var(--mid); max-width: 560px; }
+
+  /* ABOUT */
+  .about-wrap { background: var(--cream); padding: 96px 48px; }
+  .about {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .about-img-wrap { position: relative; }
+  .about-img { width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; }
+  .about-badge {
+    position: absolute; bottom: -24px; right: -24px;
+    background: var(--sage-dk); color: var(--white);
+    padding: 28px; text-align: center;
+    width: 140px; height: 140px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    border-radius: 50%;
+  }
+  .about-badge-num { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; line-height: 1; color: var(--gold-lt); }
+  .about-badge-txt { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+  .about-divider { width: 48px; height: 2px; background: var(--gold); margin: 24px 0; }
+  .about-features { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; }
+  .feat { display: flex; align-items: flex-start; gap: 10px; font-size: 0.85rem; color: var(--mid); }
+  .feat-dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+
+  /* ROOMS */
+  .rooms-wrap { background: var(--white); padding: 96px 48px; }
+  .rooms-header { text-align: center; max-width: 600px; margin: 0 auto 56px; }
+  .rooms-header .section-body { margin: 0 auto; }
+  .rooms-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; max-width: 1200px; margin: 0 auto; }
+  .room-card { background: var(--cream); overflow: hidden; transition: transform 0.3s; cursor: pointer; }
+  .room-card:hover { transform: translateY(-6px); }
+  .room-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; transition: transform 0.5s; }
+  .room-card:hover .room-img { transform: scale(1.04); }
+  .room-img-wrap { overflow: hidden; position: relative; }
+
+  /* SLIDESHOW */
+  .slideshow { position: relative; aspect-ratio: 4/3; overflow: hidden; }
+  .slideshow img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  .slideshow img.active { opacity: 1; }
+  .slide-dots {
+    position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 5px; z-index: 3;
+  }
+  .slide-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(255,255,255,0.45); border: none; padding: 0; cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .slide-dot.active { background: #fff; transform: scale(1.3); }
+  .slide-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(0,0,0,0.35); border: none; color: #fff;
+    width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; z-index: 3; font-size: 0.85rem;
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .slideshow:hover .slide-arrow { opacity: 1; }
+  .slide-arrow.prev { left: 10px; }
+  .slide-arrow.next { right: 10px; }
+  .room-info { padding: 24px 24px 28px; }
+  .room-type { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  .room-name { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; margin-bottom: 10px; color: var(--ink); }
+  .room-desc { font-size: 0.83rem; line-height: 1.7; color: var(--mid); margin-bottom: 18px; }
+  .room-price { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--sage-dk); }
+  .room-price span { font-size: 0.8rem; font-family: 'DM Sans', sans-serif; color: var(--mid); }
+  .room-amenities { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+  .tag { font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; background: var(--warm); color: var(--mid); padding: 4px 10px; }
+
+  /* AMENITIES */
+  .amenities-wrap { background: var(--sage-dk); padding: 96px 48px; }
+  .amenities-inner { max-width: 1200px; margin: 0 auto; }
+  .amenities-wrap .section-title { color: var(--white); }
+  .amenities-wrap .section-label { color: var(--gold-lt); }
+  .amenities-wrap .section-body { color: rgba(255,255,255,0.65); }
+  .amenities-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-top: 56px; }
+  .amenity-box { background: rgba(255,255,255,0.06); padding: 36px 28px; text-align: center; transition: background 0.3s; }
+  .amenity-box:hover { background: rgba(255,255,255,0.12); }
+  .amenity-icon { font-size: 2rem; margin-bottom: 14px; }
+  .amenity-name { font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.85); margin-bottom: 8px; }
+  .amenity-note { font-size: 0.75rem; color: rgba(255,255,255,0.45); line-height: 1.5; }
+
+  /* GALLERY */
+  .gallery-wrap { background: var(--cream); padding: 96px 48px; }
+  .gallery-header { text-align: center; max-width: 560px; margin: 0 auto 48px; }
+  .gallery-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: 240px 240px;
+    gap: 8px; max-width: 1200px; margin: 0 auto;
+  }
+  .gallery-grid .g1 { grid-column: 1/3; grid-row: 1/3; }
+  .gallery-grid .g5 { grid-column: 4/5; grid-row: 1/3; }
+  .gal-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+  .gal-wrap { overflow: hidden; }
+  .gal-wrap:hover .gal-img { transform: scale(1.05); }
+
+  /* LOCATION */
+  .location-wrap { background: var(--white); display: grid; grid-template-columns: 1fr 1fr; }
+  .loc-info { padding: 96px 64px; display: flex; flex-direction: column; justify-content: center; }
+  .loc-map { background: #d4e0d9; min-height: 480px; overflow: hidden; }
+  .loc-map iframe { width: 100%; height: 100%; border: none; min-height: 480px; }
+  .loc-details { margin-top: 32px; display: flex; flex-direction: column; gap: 18px; }
+  .loc-row { display: flex; gap: 14px; align-items: flex-start; }
+  .loc-icon { color: var(--gold); font-size: 1.1rem; margin-top: 2px; flex-shrink: 0; }
+  .loc-text { font-size: 0.88rem; line-height: 1.6; color: var(--mid); }
+  .loc-text strong { color: var(--ink); font-weight: 500; display: block; margin-bottom: 2px; }
+
+  /* BOOKING */
+  .booking-wrap {
+    background: linear-gradient(135deg, var(--sage-dk) 0%, var(--ink) 100%);
+    text-align: center; padding: 96px 48px;
+  }
+  .booking-wrap .section-title { color: var(--white); }
+  .booking-wrap .section-label { color: var(--gold-lt); }
+  .booking-form {
+    display: flex; gap: 0; flex-wrap: wrap; justify-content: center;
+    margin: 40px auto 0; max-width: 860px;
+    background: rgba(255,255,255,0.07); padding: 8px;
+  }
+  .form-field {
+    flex: 1; min-width: 160px; display: flex; flex-direction: column;
+    padding: 14px 18px; border-right: 1px solid rgba(255,255,255,0.1);
+  }
+  .form-field:last-of-type { border-right: none; }
+  .form-label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 6px; }
+  .form-input { background: transparent; border: none; color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; outline: none; }
+  .form-input::placeholder { color: rgba(255,255,255,0.4); }
+  .booking-btn {
+    background: var(--gold); color: var(--white); border: none; padding: 0 32px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.8rem; letter-spacing: 0.12em;
+    text-transform: uppercase; cursor: pointer; min-width: 120px; transition: background 0.2s;
+  }
+  .booking-btn:hover { background: var(--gold-lt); }
+  .booking-note { color: rgba(255,255,255,0.4); font-size: 0.75rem; margin-top: 18px; }
+
+  /* CONTACT */
+  .contact-wrap { background: var(--cream); padding: 96px 48px; text-align: center; }
+  .contact-input {
+    padding: 14px 18px; border: 1px solid rgba(0,0,0,0.12);
+    background: var(--white); font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem; outline: none; color: var(--ink); width: 100%;
+  }
+
+  /* FAQ */
+  .faq-wrap { background: var(--white); padding: 80px 48px; }
+  .faq-inner { max-width: 860px; margin: 0 auto; }
+  .faq-list { margin-top: 44px; display: flex; flex-direction: column; gap: 0; }
+  .faq-item {
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  .faq-item:first-child { border-top: 1px solid rgba(0,0,0,0.08); }
+  .faq-q {
+    width: 100%; background: none; border: none; text-align: left;
+    padding: 22px 0; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center; gap: 16px;
+    font-family: 'Cormorant Garamond', serif; font-size: 1.15rem;
+    font-weight: 400; color: var(--ink); letter-spacing: 0.01em;
+    transition: color 0.2s;
+  }
+  .faq-q:hover { color: var(--sage-dk); }
+  .faq-icon {
+    flex-shrink: 0; width: 28px; height: 28px;
+    border: 1.5px solid var(--gold); color: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; transition: transform 0.3s, background 0.2s;
+    border-radius: 50%;
+  }
+  .faq-item.open .faq-icon { transform: rotate(45deg); background: var(--gold); color: #fff; }
+  .faq-a {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.3s;
+    font-size: 0.88rem; line-height: 1.8; color: var(--mid);
+    padding: 0 40px 0 0;
+  }
+  .faq-item.open .faq-a { max-height: 200px; padding-bottom: 20px; }
+  @media(max-width:900px) { .faq-wrap { padding: 60px 24px; } }
+
+  /* FOOTER */
+  footer { background: var(--ink); padding: 60px 48px 36px; }
+  .footer-top {
+    display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px;
+    padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.08);
+    max-width: 1200px; margin: 0 auto;
+  }
+  .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: var(--white); text-decoration: none; display: block; margin-bottom: 12px; letter-spacing: 0.05em; }
+  .footer-logo span { color: var(--gold-lt); }
+  .footer-tagline { font-size: 0.82rem; line-height: 1.7; color: rgba(255,255,255,0.45); max-width: 240px; }
+  .footer-col-title { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-lt); margin-bottom: 18px; }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.83rem; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--gold-lt); }
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 28px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap; gap: 12px;
+  }
+  .footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+  .social-links { display: flex; gap: 16px; }
+  .social-links a {
+    width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.8rem;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .social-links a:hover { border-color: var(--gold-lt); color: var(--gold-lt); }
+
+  .room-cancellation-badge {
+    position: absolute; top: 12px; left: 12px;
+    background: rgba(46,95,82,0.92);
+    color: #fff; font-size: 0.68rem; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 5px 10px;
+    backdrop-filter: blur(4px);
+  }
+
+  /* PROPERTY RULES */
+  .rules-wrap { background: var(--warm); padding: 72px 48px; }
+  .rules-inner { max-width: 960px; margin: 0 auto; }
+  .rules-header { margin-bottom: 36px; }
+  .rules-times {
+    display: flex; gap: 32px; flex-wrap: wrap;
+    margin-top: 12px; margin-bottom: 28px;
+  }
+  .rules-time-item {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--white); padding: 12px 22px;
+    font-size: 0.85rem; color: var(--ink); font-weight: 500;
+  }
+  .rules-time-item span { color: var(--gold); font-size: 1rem; }
+  .rules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .rule-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: var(--white); padding: 14px 18px;
+    font-size: 0.83rem; color: var(--mid); line-height: 1.5;
+  }
+  .rule-dot { color: var(--gold); font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+  .rule-alert {
+    background: rgba(184,146,90,0.12); border-left: 3px solid var(--gold);
+    padding: 14px 18px; margin-bottom: 20px;
+    font-size: 0.83rem; color: var(--mid); line-height: 1.6;
+  }
+  .rule-alert strong { color: var(--ink); }
+  /* HAMBURGER NAV */
+  .nav-hamburger {
+    display: none; flex-direction: column; gap: 5px; cursor: pointer;
+    background: none; border: none; padding: 4px; z-index: 200;
+  }  .nav-hamburger span {
+    display: block; width: 24px; height: 2px;
+    background: var(--white); border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none; position: fixed; inset: 0; z-index: 150;
+    background: rgba(28,43,37,0.97); backdrop-filter: blur(16px);
+    flex-direction: column; align-items: center; justify-content: center;
+    gap: 24px; opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .mobile-menu.open { opacity: 1; pointer-events: all; }
+  .mobile-menu a {
+    color: var(--white); text-decoration: none;
+    font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 300;
+    letter-spacing: 0.05em; transition: color 0.2s;
+  }
+  .mobile-menu a:hover { color: var(--gold-lt); }
+  .mobile-menu .mobile-book {
+    background: var(--gold); color: var(--white);
+    font-family: 'DM Sans', sans-serif; font-size: 0.78rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 12px 30px; margin-top: 8px;
+  }
+  .mobile-close {
+    position: absolute; top: 20px; right: 24px;
+    background: none; border: 1.5px solid rgba(255,255,255,0.25);
+    color: var(--white); width: 38px; height: 38px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 1.1rem; line-height: 1;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .mobile-close:hover { border-color: var(--gold-lt); color: var(--gold-lt); }
+
+  /* Always-visible arrows on touch */
+  @media (hover: none) {
+    .slide-arrow { opacity: 1 !important; }
+  }
+
+  /* ── TABLET (≤ 960px) ── */
+  @media (max-width: 960px) {
+    nav { padding: 18px 24px; }
+    nav.scrolled { padding: 14px 24px; }
+    .nav-links, .nav-book { display: none; }
+    .nav-hamburger { display: flex; }
+    .mobile-menu { display: flex; }
+
+    .about-wrap { padding: 72px 28px; }
+    .about { grid-template-columns: 1fr; gap: 48px; }
+    .about-badge { right: 0; bottom: -18px; width: 120px; height: 120px; }
+    .about-badge-num { font-size: 2rem; }
+    .about-img { aspect-ratio: 16/9; }
+    .about-features { grid-template-columns: 1fr 1fr; }
+
+    .rooms-wrap { padding: 72px 28px; }
+    .rooms-grid { grid-template-columns: 1fr; max-width: 520px; }
+
+    .amenities-wrap { padding: 72px 28px; }
+    .amenities-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .gallery-wrap { padding: 72px 28px; }
+    .gallery-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 200px 200px 200px;
+    }
+    .gallery-grid .g1 { grid-column: 1 / 3; grid-row: 1 / 2; }
+    .gallery-grid .g5 { grid-column: auto; grid-row: auto; }
+
+    .location-wrap { grid-template-columns: 1fr; }
+    .loc-info { padding: 60px 28px 40px; }
+    .loc-map { min-height: 320px; }
+    .loc-map iframe { min-height: 320px; }
+
+    .booking-wrap { padding: 72px 28px; }
+    .booking-form { flex-direction: column; padding: 0; background: none; }
+    .form-field {
+      border-right: none; border-bottom: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.07); padding: 16px 20px;
+    }
+    .form-field:last-of-type { border-bottom: none; }
+    .booking-btn { padding: 18px; width: 100%; margin-top: 12px; font-size: 0.85rem; }
+
+    .contact-wrap { padding: 72px 28px; }
+    .faq-wrap { padding: 72px 28px; }
+    .rules-wrap { padding: 60px 28px; }
+    .rules-grid { grid-template-columns: 1fr; }
+
+    footer { padding: 56px 28px 32px; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 36px; }
+    .strip { padding: 14px 20px; gap: 0; overflow-x: auto; justify-content: flex-start; flex-wrap: nowrap; scrollbar-width: none; }
+    .strip::-webkit-scrollbar { display: none; }
+    .strip-item { flex-shrink: 0; padding: 0 20px; white-space: nowrap; }
+  }
+
+  /* ── MOBILE (≤ 600px) ── */
+  @media (max-width: 600px) {
+    .hero { min-height: 100svh; }
+    .hero-eyebrow { font-size: 0.65rem; letter-spacing: 0.2em; }
+    .hero-sub { margin-bottom: 32px; }
+    .btn-primary, .btn-outline { padding: 13px 28px; font-size: 0.75rem; width: 100%; text-align: center; }
+    .hero-cta { width: 100%; max-width: 280px; flex-direction: column; gap: 10px; }
+
+    .about-wrap { padding: 60px 20px; }
+    .about-img { aspect-ratio: 4/3; }
+    .about-badge { width: 100px; height: 100px; right: 0; bottom: -14px; }
+    .about-badge-num { font-size: 1.6rem; }
+    .about-badge-txt { font-size: 0.55rem; }
+    .about-features { grid-template-columns: 1fr; }
+
+    .rooms-wrap { padding: 60px 20px; }
+    .rooms-grid { max-width: 100%; }
+    .room-info { padding: 18px 18px 22px; }
+    .room-amenities { gap: 6px; }
+    .tag { font-size: 0.62rem; padding: 3px 8px; }
+
+    .amenities-wrap { padding: 60px 20px; }
+    .amenities-grid { grid-template-columns: 1fr 1fr; gap: 2px; }
+    .amenity-box { padding: 24px 16px; }
+    .amenity-icon { font-size: 1.6rem; margin-bottom: 10px; }
+    .amenity-name { font-size: 0.75rem; }
+    .amenity-note { font-size: 0.7rem; }
+
+    .gallery-wrap { padding: 60px 20px; }
+    .gallery-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 160px 160px 160px;
+    }
+    .gallery-grid .g1 { grid-column: 1 / 3; }
+
+    .loc-info { padding: 48px 20px 32px; }
+    .loc-details { gap: 14px; }
+    .loc-map { min-height: 260px; }
+    .loc-map iframe { min-height: 260px; }
+
+    .booking-wrap { padding: 60px 20px; }
+    .form-input { font-size: 1rem; }
+
+    .contact-wrap { padding: 60px 20px; }
+    .section-body { font-size: 0.9rem; }
+
+    .rules-wrap { padding: 48px 20px; }
+    .rules-times { gap: 12px; }
+    .rules-time-item { padding: 10px 16px; font-size: 0.8rem; flex: 1; justify-content: center; }
+
+    .faq-wrap { padding: 60px 20px; }
+    .faq-q { font-size: 1rem; padding: 18px 0; }
+    .faq-icon { width: 24px; height: 24px; font-size: 0.9rem; }
+    .faq-a { font-size: 0.85rem; }
+
+    footer { padding: 48px 20px 28px; }
+    .footer-top { grid-template-columns: 1fr; gap: 32px; }
+    .footer-tagline { max-width: 100%; }
+    .footer-bottom { flex-direction: column; text-align: center; gap: 8px; }
+
+    .section-title { font-size: clamp(1.7rem, 7vw, 2.4rem); }
+  }
+</style>
+</head>
+<body>
+
+<!-- MOBILE MENU OVERLAY -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="closeMobileMenu()" aria-label="Close menu">✕</button>
+  <a href="#about" onclick="closeMobileMenu()">About</a>
+  <a href="#rooms" onclick="closeMobileMenu()">Rooms</a>
+  <a href="#amenities" onclick="closeMobileMenu()">Amenities</a>
+  <a href="#rules" onclick="closeMobileMenu()">Rules</a>
+  <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
+  <a href="#location" onclick="closeMobileMenu()">Location</a>
+  <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+  <a href="#book" class="mobile-book" onclick="closeMobileMenu()">Book Now</a>
+</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">Tulip <span>Inn</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#rooms">Rooms</a></li>
+    <li><a href="#amenities">Amenities</a></li>
+    <li><a href="#rules">Rules</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#location">Location</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#book" class="nav-book">Book Now</a>
+  <button class="nav-hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">✦ Harmutty, North Lakhimpur, Assam ✦</p>
+    <h1 class="hero-title">Tulip<br><em>Inn</em></h1>
+    <p class="hero-sub">A homely warmth where comfort meets the serenity of Assam</p>
+    <div class="hero-cta">
+      <a href="#book" class="btn-primary">Reserve Your Stay</a>
+      <a href="#rooms" class="btn-outline">Explore Rooms</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="strip-item"><span class="strip-icon">✦</span> Free Wi-Fi</div>
+  <div class="strip-item"><span class="strip-icon">✦</span> 24-Hour Room Service</div>
+  <div class="strip-item"><span class="strip-icon">✦</span> AC Rooms</div>
+  <div class="strip-item"><span class="strip-icon">✦</span> Restaurant On-site</div>
+  <div class="strip-item"><span class="strip-icon">✦</span> Conference Hall</div>
+  <div class="strip-item"><span class="strip-icon">✦</span> Ample Parking</div>
+</div>
+
+<!-- ABOUT -->
+<div id="about" class="about-wrap">
+  <div class="about">
+    <div class="about-img-wrap">
+      <img class="about-img" src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=700&q=80" alt="Tulip Inn Hotel Room">
+      <div class="about-badge">
+        <div class="about-badge-num">100%</div>
+        <div class="about-badge-txt">Guest Satisfaction</div>
+      </div>
+    </div>
+    <div>
+      <p class="section-label">About Us</p>
+      <h2 class="section-title">A Peaceful Retreat in the <em>Heart of Assam</em></h2>
+      <div class="about-divider"></div>
+      <p class="section-body">Tulip Inn Homestay offers a comfortable and peaceful stay with a perfect blend of modern convenience and homely warmth. Nestled in the lush landscapes of Harmutty, North Lakhimpur, the homestay features clean, well-furnished rooms, a calm atmosphere, and essential amenities to ensure a truly relaxing experience.</p>
+      <p class="section-body" style="margin-top:16px;">Guests can enjoy privacy, attentive hospitality, and a welcoming environment that makes them feel at home. Ideal for families, couples, and solo travelers, Tulip Inn Homestay is a great choice for both short visits and extended stays — surrounded by the natural beauty of upper Assam.</p>
+      <div class="about-features">
+        <div class="feat"><div class="feat-dot"></div><span>Comfortable & Spacious Rooms</span></div>
+        <div class="feat"><div class="feat-dot"></div><span>Multi-Cuisine Restaurant</span></div>
+        <div class="feat"><div class="feat-dot"></div><span>24/7 Front Desk Service</span></div>
+        <div class="feat"><div class="feat-dot"></div><span>Conference & Event Facilities</span></div>
+        <div class="feat"><div class="feat-dot"></div><span>Hot Water & AC Rooms</span></div>
+        <div class="feat"><div class="feat-dot"></div><span>Safe & Secure Premises</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ROOMS -->
+<div id="rooms" class="rooms-wrap">
+  <div class="rooms-header">
+    <p class="section-label">Accommodations</p>
+    <h2 class="section-title">Our <em>Rooms & Suites</em></h2>
+    <p class="section-body">Every room is spacious, clean, and designed for comfort — featuring a comfortable bed with fresh linens, well-maintained furnishings, and ample natural light that creates a relaxing atmosphere. Equipped with essential amenities, each room offers privacy and a peaceful environment ideal for couples, families, or solo travelers.</p>
+  </div>
+  <div class="rooms-grid">
+    <!-- The Pansy -->
+    <div class="room-card">
+      <div class="room-img-wrap">
+        <div class="slideshow" id="slideshow-pansy">
+          <img src="https://r1imghtlak.mmtcdn.com/c192ee38-ece9-42f6-94c4-8bea33e84266.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Pansy" class="active">
+          <img src="https://r1imghtlak.mmtcdn.com/de7a9d75-60c4-44c8-9615-aab8a2f80c7c.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Pansy">
+          <img src="https://r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/202512191104015276-0cf6030e-c6f6-4d15-b6ab-59161a0b986b.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Pansy">
+          <img src="https://r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/202512191104015276-92cf59fd-ffa2-4feb-8867-61824f7406b2.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Pansy">
+          <img src="https://r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/202512191104015276-8cd72c93-cb94-4e5e-8bfa-234a0135d639.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Pansy">
+          <img src="https://r1imghtlak.mmtcdn.com/873e9ce9-45f2-4c72-8461-d4313c734b7d.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Pansy">
+          <img src="https://r1imghtlak.mmtcdn.com/d8630a04-1e56-45f9-bdbd-9a42983b9db8.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Pansy">
+          <button class="slide-arrow prev" onclick="slideMove('pansy',-1)">&#8249;</button>
+          <button class="slide-arrow next" onclick="slideMove('pansy',1)">&#8250;</button>
+          <div class="slide-dots" id="dots-pansy"></div>
+        </div>
+        <span class="room-cancellation-badge">✔ Free Cancellation</span>
+      </div>
+      <div class="room-info">
+        <p class="room-type">🌸 Garden View &nbsp;·&nbsp; 2 Single Beds</p>
+        <h3 class="room-name">The Pansy</h3>
+        <p class="room-desc">Spacious and clean, this room is designed for comfort with two single beds and fresh linens, well-maintained furnishings, and ample natural light. A restful choice for friends or solo travellers seeking privacy and a peaceful garden-view environment.</p>
+        <div class="room-amenities">
+          <span class="tag">AC</span><span class="tag">Free Wi-Fi</span><span class="tag">Bathroom</span><span class="tag">Mineral Water</span><span class="tag">Kettle</span><span class="tag">Iron</span>
+        </div>
+        <div class="room-price">₹2,413 <span>/ night</span> <small style="color:var(--mid);font-size:0.72rem;">+ ₹270 taxes</small></div>
+        <p style="font-size:0.72rem;color:var(--sage-dk);margin-top:6px;">Free cancellation till 24 hrs before check-in</p>
+      </div>
+    </div>
+    <!-- The Lilac -->
+    <div class="room-card">
+      <div class="room-img-wrap">
+        <div class="slideshow" id="slideshow-lilac">
+          <img src="https://r1imghtlak.mmtcdn.com/640c3a76-21c6-461d-9642-503e84d25491.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Lilac" class="active">
+          <img src="https://r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/202512191104015276-a7170526-ad6b-4209-b335-c2494d504f46.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Lilac">
+          <img src="https://r1imghtlak.mmtcdn.com/4ee5d522-0de5-4ee4-9347-d0ee1c50ea05.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Lilac">
+          <img src="https://r1imghtlak.mmtcdn.com/bb663d62-ed03-4d8e-b581-de41856a060c.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Lilac">
+          <img src="https://r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/202512191104015276-1f421a1f-d5b7-4481-b0e8-d1daf098a723.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Lilac">
+          <img src="https://r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/202512191104015276-97aac08f-d733-43fc-a612-5a3c780eb389.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Lilac">
+          <img src="https://r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/202512191104015276-e0abeaf7-09ae-4759-8600-e5eabccb77ec.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Lilac">
+          <img src="https://r1imghtlak.mmtcdn.com/f9a3ae2a-24cb-472b-bcdd-9bfc2bdfba5b.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Lilac">
+          <button class="slide-arrow prev" onclick="slideMove('lilac',-1)">&#8249;</button>
+          <button class="slide-arrow next" onclick="slideMove('lilac',1)">&#8250;</button>
+          <div class="slide-dots" id="dots-lilac"></div>
+        </div>
+        <span class="room-cancellation-badge">✔ Free Cancellation</span>
+      </div>
+      <div class="room-info">
+        <p class="room-type">🌸 Garden View &nbsp;·&nbsp; 1 Double + 1 Single Bed</p>
+        <h3 class="room-name">The Lilac</h3>
+        <p class="room-desc">A warm and well-furnished room with a double and single bed, ideal for small families or groups. Designed for comfort with natural light, homely décor, and all essential amenities for a relaxing stay.</p>
+        <div class="room-amenities">
+          <span class="tag">AC</span><span class="tag">Wi-Fi</span><span class="tag">Bathroom</span><span class="tag">Mineral Water</span><span class="tag">Kettle</span><span class="tag">Iron</span>
+        </div>
+        <div class="room-price">₹2,815 <span>/ night</span> <small style="color:var(--mid);font-size:0.72rem;">+ ₹316 taxes</small></div>
+        <p style="font-size:0.72rem;color:var(--sage-dk);margin-top:6px;">Free cancellation till 24 hrs before check-in</p>
+      </div>
+    </div>
+    <!-- The Lily -->
+    <div class="room-card">
+      <div class="room-img-wrap">
+        <div class="slideshow" id="slideshow-lily">
+          <img src="https://r1imghtlak.mmtcdn.com/fa33bd32-105f-4150-b683-2d19f6b23a99.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Lily" class="active">
+          <img src="https://r1imghtlak.mmtcdn.com/71bddde6-d5c6-4368-9ec0-141e9c0285ca.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Lily">
+          <img src="https://r1imghtlak.mmtcdn.com/36f9e244-6f50-45be-bf8c-f1daac31c457.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Lily">
+          <img src="https://r1imghtlak.mmtcdn.com/e15ffc50-c0db-42a4-a6ec-13e7a0c863e8.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Lily">
+          <img src="https://r1imghtlak.mmtcdn.com/3acd5771-beda-4404-9d89-ea31ee45e602.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Lily">
+          <img src="https://r1imghtlak.mmtcdn.com/61f86603-4f7b-4f79-bd1c-ae669ec91b7c.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Lily">
+          <img src="https://r1imghtlak.mmtcdn.com/585baa71-6b37-4541-b034-ad72c8d09ede.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Lily">
+          <img src="https://r1imghtlak.mmtcdn.com/21fb5fa7-3b27-4cf0-917e-82e32ff4033a.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Lily">
+          <button class="slide-arrow prev" onclick="slideMove('lily',-1)">&#8249;</button>
+          <button class="slide-arrow next" onclick="slideMove('lily',1)">&#8250;</button>
+          <div class="slide-dots" id="dots-lily"></div>
+        </div>
+        <span class="room-cancellation-badge">✔ Free Cancellation</span>
+      </div>
+      <div class="room-info">
+        <p class="room-type">🌸 Garden View &nbsp;·&nbsp; 1 Double + 1 Single Bed</p>
+        <h3 class="room-name">The Lily</h3>
+        <p class="room-desc">A bright and comfortable room offering a double and single bed setup, perfect for couples, families, or solo travellers who value space and privacy. Equipped with essential amenities and a peaceful garden view.</p>
+        <div class="room-amenities">
+          <span class="tag">AC</span><span class="tag">Wi-Fi</span><span class="tag">Bathroom</span><span class="tag">Mineral Water</span><span class="tag">Kettle</span><span class="tag">Iron</span>
+        </div>
+        <div class="room-price">₹2,815 <span>/ night</span> <small style="color:var(--mid);font-size:0.72rem;">+ ₹316 taxes</small></div>
+        <p style="font-size:0.72rem;color:var(--sage-dk);margin-top:6px;">Free cancellation till 24 hrs before check-in</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AMENITIES -->
+<div id="amenities" class="amenities-wrap">
+  <div class="amenities-inner">
+    <p class="section-label">What We Offer</p>
+    <h2 class="section-title">Facilities & <em style="color:var(--sage-lt);">Amenities</em></h2>
+    <div class="amenities-grid">
+      <div class="amenity-box"><div class="amenity-icon">🍽️</div><div class="amenity-name">Restaurant</div><div class="amenity-note">Multi-cuisine dining with Assamese specialties and North Indian favourites</div></div>
+      <div class="amenity-box"><div class="amenity-icon">📶</div><div class="amenity-name">Free Wi-Fi</div><div class="amenity-note">High-speed internet available throughout the property</div></div>
+      <div class="amenity-box"><div class="amenity-icon">🏛️</div><div class="amenity-name">Conference Hall</div><div class="amenity-note">Well-equipped meeting and event space for corporate gatherings</div></div>
+      <div class="amenity-box"><div class="amenity-icon">🅿️</div><div class="amenity-name">Free Parking</div><div class="amenity-note">Ample secure parking space for guests' vehicles</div></div>
+      <div class="amenity-box"><div class="amenity-icon">🌡️</div><div class="amenity-name">AC Rooms</div><div class="amenity-note">All rooms are air-conditioned with individual temperature control</div></div>
+      <div class="amenity-box"><div class="amenity-icon">🛎️</div><div class="amenity-name">Room Service</div><div class="amenity-note">24-hour room service with prompt and courteous staff</div></div>
+      <div class="amenity-box"><div class="amenity-icon">🔒</div><div class="amenity-name">24/7 Security</div><div class="amenity-note">CCTV surveillance and round-the-clock security for your safety</div></div>
+      <div class="amenity-box"><div class="amenity-icon">🚰</div><div class="amenity-name">Hot Water</div><div class="amenity-note">Reliable hot water supply in all rooms, all day long</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div id="gallery" class="gallery-wrap">
+  <div class="gallery-header">
+    <p class="section-label">Visual Journey</p>
+    <h2 class="section-title">A Glimpse of <em>Tulip Inn</em></h2>
+  </div>
+  <div class="gallery-grid">
+    <div class="gal-wrap g1"><img class="gal-img" src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80" alt="Hotel Room"></div>
+    <div class="gal-wrap"><img class="gal-img" src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=600&q=80" alt="Room Interior"></div>
+    <div class="gal-wrap"><img class="gal-img" src="https://images.unsplash.com/photo-1567098260939-5d9cee055592?w=600&q=80" alt="Assam Landscape"></div>
+    <div class="gal-wrap g5"><img class="gal-img" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80" alt="Restaurant"></div>
+    <div class="gal-wrap"><img class="gal-img" src="https://images.unsplash.com/photo-1579632652768-6cb9dcf85912?w=600&q=80" alt="Hotel Lobby"></div>
+  </div>
+</div>
+
+<!-- LOCATION -->
+<div id="location" class="location-wrap">
+  <div class="loc-info">
+    <p class="section-label">Find Us</p>
+    <h2 class="section-title">Our <em>Location</em></h2>
+    <p class="section-body">Conveniently located in Harmutty, just minutes from North Lakhimpur town — easily accessible by road from Dibrugarh, Jorhat, and nearby towns.</p>
+    <div class="loc-details">
+      <div class="loc-row"><span class="loc-icon">📍</span><div class="loc-text"><strong>Address</strong>Harmutty, North Lakhimpur, Lakhimpur District, Assam — 784160</div></div>
+      <div class="loc-row"><span class="loc-icon">📞</span><div class="loc-text"><strong>Phone</strong>+91 91263 99328</div></div>
+      <div class="loc-row"><span class="loc-icon">✉️</span><div class="loc-text"><strong>Email</strong>info@tulipinnharmutty.com</div></div>
+      <div class="loc-row"><span class="loc-icon">🕐</span><div class="loc-text"><strong>Check-in / Check-out</strong>Check-in: 12:00 PM &nbsp;|&nbsp; Check-out: 11:00 AM</div></div>
+      <div class="loc-row"><span class="loc-icon">✈️</span><div class="loc-text"><strong>Nearest Airport</strong>Lilabari Airport (IXI), North Lakhimpur — approx. 10 km</div></div>
+    </div>
+  </div>
+  <div class="loc-map">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3648.5!2d93.8476562!3d27.1204297!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3746adcc16964609%3A0xd373243f03bf0935!2sTulip%20Inn!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Tulip Inn Location"></iframe>
+  </div>
+</div>
+
+<!-- BOOKING -->
+<div id="book" class="booking-wrap">
+  <p class="section-label">Reserve Your Stay</p>
+  <h2 class="section-title" style="color:var(--white); margin-bottom:8px;">Book <em style="color:var(--sage-lt);">Direct</em> & Save</h2>
+  <p style="color:rgba(255,255,255,0.55); font-size:0.9rem;">Best rates guaranteed when you book directly with us</p>
+  <div class="booking-form">
+    <div class="form-field">
+      <label class="form-label">Check-in</label>
+      <input class="form-input" type="date">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Check-out</label>
+      <input class="form-input" type="date">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Guests</label>
+      <input class="form-input" type="number" min="1" max="10" placeholder="2 Guests">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Room Type</label>
+      <select class="form-input" style="background:transparent; border:none; color:rgba(255,255,255,0.7);">
+        <option value="" style="background:#1C2B25;">Any Room</option>
+        <option value="pansy" style="background:#1C2B25;">The Pansy</option>
+        <option value="lilac" style="background:#1C2B25;">The Lilac</option>
+        <option value="lily" style="background:#1C2B25;">The Lily</option>
+      </select>
+    </div>
+    <button class="booking-btn" onclick="alert('Thank you! Please call +91 91263 99328 or email us to confirm your booking.')">Check Availability</button>
+  </div>
+  <p class="booking-note">Or call us directly: <a href="tel:+919126399328" style="color:var(--gold-lt);">+91 91263 99328</a></p>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="contact-wrap">
+  <p class="section-label">Get In Touch</p>
+  <h2 class="section-title" style="text-align:center; max-width:500px; margin:0 auto 12px;">We'd Love to <em>Hear from You</em></h2>
+  <p class="section-body" style="margin:0 auto 48px; text-align:center;">Have questions? Need special arrangements? Our team is here to help.</p>
+  <div style="display:flex; flex-direction:column; gap:14px; max-width:480px; margin:0 auto;">
+    <input type="text" class="contact-input" placeholder="Your Name">
+    <input type="email" class="contact-input" placeholder="Email Address">
+    <input type="tel" class="contact-input" placeholder="Phone Number">
+    <textarea class="contact-input" rows="4" placeholder="Your Message" style="resize:vertical;"></textarea>
+    <button class="btn-primary" style="width:100%; padding:16px;" onclick="alert('Message sent! We will get back to you within 24 hours.')">Send Message</button>
+  </div>
+</div>
+
+<!-- PROPERTY RULES -->
+<div id="rules" class="rules-wrap">
+  <div class="rules-inner">
+    <div class="rules-header">
+      <p class="section-label">Know Before You Go</p>
+      <h2 class="section-title">Property <em>Rules</em></h2>
+    </div>
+    <div class="rules-times">
+      <div class="rules-time-item"><span>🕛</span> Check-in: 12:00 PM</div>
+      <div class="rules-time-item"><span>🕚</span> Check-out: 11:00 AM</div>
+    </div>
+    <div class="rule-alert">
+      <strong>Couple / Bachelor Policy:</strong> Unmarried couples are not allowed at the property. Local IDs are not accepted.
+    </div>
+    <div class="rules-grid">
+      <div class="rule-item"><span class="rule-dot">●</span>Primary guest must be at least 18 years of age</div>
+      <div class="rule-item"><span class="rule-dot">●</span>Groups with only male guests are allowed at the property</div>
+      <div class="rule-item"><span class="rule-dot">●</span>Passport, Aadhaar, and Govt. ID accepted as ID proof</div>
+      <div class="rule-item"><span class="rule-dot">●</span>Pets are not allowed on the premises</div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div id="faq" class="faq-wrap">
+  <div class="faq-inner">
+    <p class="section-label">Frequently Asked</p>
+    <h2 class="section-title">Questions & <em>Answers</em></h2>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How far is Tulip Inn from the city center?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">From the city center, Tulip Inn is approximately 16.9 km away — easily reachable by road via Bihpuria town.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How many types of rooms are available at Tulip Inn?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Tulip Inn offers 3 room types — The Pansy, The Lilac, and The Lily — each tailored to meet the needs of every traveller. Every room is designed with comfort and privacy in mind, featuring garden views, quality furnishings, and essential amenities to make your stay unforgettable.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What are the customer ratings for Tulip Inn?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Tulip Inn is listed on MakeMyTrip where guests can explore in-depth reviews and photos shared by visitors. We are committed to delivering the highest quality of hospitality and warmth to ensure every guest leaves with wonderful memories.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What are the Check-In and Check-Out times at Tulip Inn?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Check-In time is 12:00 PM and Check-Out time is 11:00 AM. Early check-ins and late check-outs are subject to availability — please contact us in advance to make arrangements.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <a href="#" class="footer-logo">Tulip <span>Inn</span></a>
+      <p class="footer-tagline">A peaceful homestay in Harmutty, North Lakhimpur — homely warmth, attentive hospitality, and modern comfort all in one place.</p>
+      <div class="social-links" style="margin-top:24px;">
+        <a href="https://www.facebook.com/thetulippage/" target="_blank" rel="noopener" title="Facebook" aria-label="Facebook">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/thetulip___/?hl=en" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="https://wa.me/919126399328" target="_blank" rel="noopener" title="WhatsApp" aria-label="WhatsApp">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div>
+      <p class="footer-col-title">Quick Links</p>
+      <ul class="footer-links">
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#rooms">Rooms</a></li>
+        <li><a href="#amenities">Amenities</a></li>
+        <li><a href="#rules">Property Rules</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#book">Book Now</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">Our Rooms</p>
+      <ul class="footer-links">
+        <li><a href="#rooms">The Pansy</a></li>
+        <li><a href="#rooms">The Lilac</a></li>
+        <li><a href="#rooms">The Lily</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">Contact</p>
+      <ul class="footer-links">
+        <li><a href="#">Harmutty, N. Lakhimpur</a></li>
+        <li><a href="#">Assam — 784160</a></li>
+        <li><a href="tel:+919126399328">+91 91263 99328</a></li>
+        <li><a href="mailto:info@tulipinnharmutty.com">info@tulipinnharmutty.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 Tulip Inn, Harmutty. All rights reserved.</p>
+    <p class="footer-copy">Harmutty, North Lakhimpur, Assam</p>
+  </div>
+</footer>
+
+<script>
+  // MOBILE MENU
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const btn = document.getElementById('hamburger');
+    menu.classList.toggle('open');
+    btn.classList.toggle('open');
+    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+  }
+  function closeMobileMenu() {
+    document.getElementById('mobileMenu').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // SLIDESHOW
+  const slideshows = {};
+  function initSlideshow(id) {
+    const el = document.getElementById('slideshow-' + id);
+    if (!el) return;
+    const imgs = Array.from(el.querySelectorAll('img'));
+    const dotsEl = document.getElementById('dots-' + id);
+    imgs.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.className = 'slide-dot' + (i === 0 ? ' active' : '');
+      d.onclick = () => goTo(id, i);
+      dotsEl.appendChild(d);
+    });
+    slideshows[id] = { imgs, dots: dotsEl.querySelectorAll('.slide-dot'), current: 0 };
+    slideshows[id].timer = setInterval(() => slideMove(id, 1), 6000);
+  }
+  function goTo(id, idx) {
+    const s = slideshows[id];
+    s.imgs[s.current].classList.remove('active');
+    s.dots[s.current].classList.remove('active');
+    s.current = (idx + s.imgs.length) % s.imgs.length;
+    s.imgs[s.current].classList.add('active');
+    s.dots[s.current].classList.add('active');
+    clearInterval(s.timer);
+    s.timer = setInterval(() => slideMove(id, 1), 6000);
+  }
+  function slideMove(id, dir) { goTo(id, slideshows[id].current + dir); }
+  ['pansy','lilac','lily'].forEach(initSlideshow);
+
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.room-card, .amenity-box, .gal-wrap').forEach(el => {
+    el.style.opacity = '0'; el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
