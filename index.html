@@ -339,14 +339,58 @@
   }
   .gallery-grid .g1 { grid-column: 1/3; grid-row: 1/3; }
   .gallery-grid .g5 { grid-column: 4/5; grid-row: 1/3; }
-  .gal-wrap { overflow: hidden; position: relative; }
+  .gal-wrap { overflow: hidden; position: relative; cursor: pointer; }
   .gal-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
   .gal-wrap::after {
     content: ''; position: absolute; inset: 0; background: rgba(28,43,37,0.2);
-    opacity: 0; transition: opacity 0.4s;
+    opacity: 0; transition: opacity 0.4s; pointer-events: none;
   }
   .gal-wrap:hover .gal-img { transform: scale(1.06); }
   .gal-wrap:hover::after { opacity: 1; }
+  
+  .gallery-footer { text-align: center; margin-top: 40px; }
+  .btn-gallery {
+    background: transparent; color: var(--ink); border: 1.5px solid var(--ink);
+    padding: 14px 36px; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.3s; font-weight: 500;
+  }
+  .btn-gallery:hover { background: var(--ink); color: var(--white); }
+
+  /* LIGHTBOX MODAL */
+  .lightbox {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(28, 43, 37, 0.95); z-index: 200;
+    display: none; align-items: center; justify-content: center;
+    flex-direction: column; padding: 40px;
+  }
+  .lightbox.active { display: flex; }
+  .lightbox-close {
+    position: absolute; top: 24px; right: 36px;
+    color: #fff; font-size: 2.5rem; cursor: pointer; background: none; border: none;
+    z-index: 202; transition: transform 0.2s, color 0.2s;
+  }
+  .lightbox-close:hover { transform: rotate(90deg); color: var(--gold-lt); }
+  .lightbox-content {
+    max-width: 90vw; max-height: 80vh; position: relative;
+  }
+  .lightbox-img {
+    max-width: 100%; max-height: 80vh; object-fit: contain; display: block;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  }
+  .lightbox-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(255,255,255,0.1); border: none; color: #fff;
+    width: 50px; height: 50px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; z-index: 201; font-size: 1.5rem;
+    transition: background 0.3s;
+  }
+  .lightbox-arrow:hover { background: var(--gold); }
+  .lightbox-arrow.prev { left: -80px; }
+  .lightbox-arrow.next { right: -80px; }
+  .lightbox-counter {
+    color: rgba(255,255,255,0.8); margin-top: 20px; font-size: 0.9rem; letter-spacing: 0.1em;
+  }
 
   /* LOCATION */
   .location-wrap { background: var(--white); display: grid; grid-template-columns: 1fr 1fr; }
@@ -502,6 +546,24 @@
     z-index: 4;
   }
 
+  /* FLOATING WHATSAPP & EMAIL BUTTONS */
+  .float-actions {
+    position: fixed; bottom: 24px; right: 24px; z-index: 99;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .float-btn {
+    width: 54px; height: 54px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; text-decoration: none; font-size: 1.5rem;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none; cursor: pointer;
+  }
+  .float-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+  .float-btn.whatsapp { background: #25D366; }
+  .float-btn.email { background: var(--gold); }
+  .float-btn svg { width: 26px; height: 26px; fill: currentColor; }
+
   /* SCROLL ANIMATIONS */
   .reveal {
     opacity: 0;
@@ -545,6 +607,8 @@
     .booking-btn { padding: 18px; width: 100%; }
     .rules-grid { grid-template-columns: 1fr; }
     .rules-wrap { padding: 64px 24px; }
+    .lightbox-arrow.prev { left: 10px; }
+    .lightbox-arrow.next { right: 10px; }
   }
   @media(max-width: 600px) {
     .amenities-grid { grid-template-columns: 1fr 1fr; }
@@ -759,12 +823,26 @@
     <h2 class="section-title">A Glimpse of <em>Tulip Inn</em></h2>
   </div>
   <div class="gallery-grid reveal">
-    <div class="gal-wrap g1"><img class="gal-img" src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80" alt="Hotel Room"></div>
-    <div class="gal-wrap"><img class="gal-img" src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=600&q=80" alt="Room Interior"></div>
-    <div class="gal-wrap"><img class="gal-img" src="https://images.unsplash.com/photo-1567098260939-5d9cee055592?w=600&q=80" alt="Assam Landscape"></div>
-    <div class="gal-wrap g5"><img class="gal-img" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80" alt="Restaurant"></div>
-    <div class="gal-wrap"><img class="gal-img" src="https://images.unsplash.com/photo-1579632652768-6cb9dcf85912?w=600&q=80" alt="Hotel Lobby"></div>
+    <div class="gal-wrap g1" onclick="openLightbox(0)"><img class="gal-img" src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80" alt="Hotel Room"></div>
+    <div class="gal-wrap" onclick="openLightbox(1)"><img class="gal-img" src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=600&q=80" alt="Room Interior"></div>
+    <div class="gal-wrap" onclick="openLightbox(2)"><img class="gal-img" src="https://images.unsplash.com/photo-1567098260939-5d9cee055592?w=600&q=80" alt="Assam Landscape"></div>
+    <div class="gal-wrap g5" onclick="openLightbox(3)"><img class="gal-img" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80" alt="Restaurant"></div>
+    <div class="gal-wrap" onclick="openLightbox(4)"><img class="gal-img" src="https://images.unsplash.com/photo-1579632652768-6cb9dcf85912?w=600&q=80" alt="Hotel Lobby"></div>
   </div>
+  <div class="gallery-footer reveal">
+    <button class="btn-gallery" onclick="openLightbox(0)">View All Photos</button>
+  </div>
+</div>
+
+<!-- LIGHTBOX MODAL -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+  <div class="lightbox-content">
+    <button class="lightbox-arrow prev" onclick="changeLightbox(-1)">&#8249;</button>
+    <img class="lightbox-img" id="lightbox-img" src="" alt="Gallery Image">
+    <button class="lightbox-arrow next" onclick="changeLightbox(1)">&#8250;</button>
+  </div>
+  <div class="lightbox-counter" id="lightbox-counter"></div>
 </div>
 
 <!-- LOCATION -->
@@ -957,6 +1035,16 @@
   </div>
 </footer>
 
+<!-- FLOATING WHATSAPP & EMAIL BUTTONS -->
+<div class="float-actions">
+  <a href="mailto:info@tulipinnharmutty.com" class="float-btn email" title="Email Us" aria-label="Email Us">
+    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+  </a>
+  <a href="https://wa.me/91XXXXXXXXXX?text=Hello%20Tulip%20Inn,%20I%20would%20like%20to%20enquire%20about%20room%20availability." target="_blank" class="float-btn whatsapp" title="WhatsApp Us" aria-label="WhatsApp Us">
+    <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.767.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+  </a>
+</div>
+
 <script>
   // --- ORIGINAL COMPONENT SCRIPTS ---
 
@@ -1039,6 +1127,53 @@
     observer.observe(el);
   });
 
+  // --- LIGHTBOX MODAL ---
+  let currentLightboxIndex = 0;
+  const galleryImages = [
+    "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=80",
+    "https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1200&q=80",
+    "https://images.unsplash.com/photo-1567098260939-5d9cee055592?w=1200&q=80",
+    "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=80",
+    "https://images.unsplash.com/photo-1579632652768-6cb9dcf85912?w=1200&q=80"
+  ];
+
+  function openLightbox(index) {
+    currentLightboxIndex = index;
+    document.getElementById('lightbox').classList.add('active');
+    updateLightboxImage();
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = ''; // Restore scrolling
+  }
+
+  function changeLightbox(direction) {
+    currentLightboxIndex = (currentLightboxIndex + direction + galleryImages.length) % galleryImages.length;
+    updateLightboxImage();
+  }
+
+  function updateLightboxImage() {
+    document.getElementById('lightbox-img').src = galleryImages[currentLightboxIndex];
+    document.getElementById('lightbox-counter').textContent = `${currentLightboxIndex + 1} / ${galleryImages.length}`;
+  }
+
+  // Close lightbox when clicking outside the image
+  document.getElementById('lightbox').addEventListener('click', (e) => {
+    if (e.target.id === 'lightbox') {
+      closeLightbox();
+    }
+  });
+
+  // Keyboard navigation for lightbox
+  document.addEventListener('keydown', (e) => {
+    if (!document.getElementById('lightbox').classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') changeLightbox(-1);
+    if (e.key === 'ArrowRight') changeLightbox(1);
+  });
+
   // --- MERGED PATCH SCRIPT (patch (3).js) ---
 
   (function () {
@@ -1074,7 +1209,11 @@
     /* -- Gallery images -- */
     const galImgs = document.querySelectorAll(".gallery-grid .gal-img");
     GALLERY.forEach(function (url, i) {
-      if (url && galImgs[i]) galImgs[i].src = url;
+      if (url && galImgs[i]) {
+        galImgs[i].src = url;
+        // Also update the lightbox array so high-res images open in the modal
+        if (galleryImages[i]) galleryImages[i] = url;
+      }
     });
 
   })();
