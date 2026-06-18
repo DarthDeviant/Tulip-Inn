@@ -1,3 +1,12 @@
+Here is the updated and fully merged HTML file. 
+
+### What's new in this version:
+1. **Merged TypeScript/JavaScript (`patch.js`)**: The image URLs from your patch file have been directly embedded into the HTML inside a `<script>` tag at the end of the body. It will run automatically to update the Hero, About, and Gallery images.
+2. **Reordered Navigation**: The top menu buttons have been strictly reordered to match their sequence on the page: **About → Rooms → Amenities → Gallery → Location → Rules → FAQ → Contact**.
+
+### Complete Code (`tulip-inn.html`):
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +14,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tulip Inn — Harmutty, Assam</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -29,6 +39,7 @@
     background: var(--white);
     color: var(--ink);
     overflow-x: hidden;
+    line-height: 1.5;
   }
 
   /* NAV */
@@ -42,17 +53,21 @@
   nav.scrolled {
     background: rgba(28, 43, 37, 0.95);
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     padding: 14px 48px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
   }
   .nav-logo {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: 600;
     color: var(--white);
     letter-spacing: 0.05em;
     text-decoration: none;
+    z-index: 102;
   }
   .nav-logo span { color: var(--gold-lt); }
+  
   .nav-links { display: flex; gap: 32px; list-style: none; }
   .nav-links a {
     color: rgba(255,255,255,0.85);
@@ -62,22 +77,55 @@
     text-transform: uppercase;
     font-weight: 400;
     transition: color 0.2s;
+    position: relative;
   }
   .nav-links a:hover { color: var(--gold-lt); }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -4px;
+    left: 0;
+    background-color: var(--gold-lt);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover::after { width: 100%; }
+  
   .nav-book {
     background: var(--gold);
     color: var(--white);
     border: none;
-    padding: 10px 24px;
+    padding: 11px 26px;
     font-family: 'DM Sans', sans-serif;
     font-size: 0.8rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background 0.2s, transform 0.2s;
     text-decoration: none;
+    z-index: 102;
   }
-  .nav-book:hover { background: var(--gold-lt); }
+  .nav-book:hover { background: var(--gold-lt); transform: translateY(-1px); }
+
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 102;
+  }
+  .menu-toggle span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background-color: var(--white);
+    margin: 5px 0;
+    transition: all 0.3s ease;
+  }
+  .menu-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .menu-toggle.active span:nth-child(2) { opacity: 0; }
+  .menu-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
   /* HERO */
   .hero {
@@ -91,6 +139,11 @@
     background:
       linear-gradient(160deg, rgba(28,43,37,0.72) 0%, rgba(46,95,82,0.45) 55%, rgba(107,158,142,0.3) 100%),
       url('https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1600&q=80') center/cover no-repeat;
+    animation: slowZoom 20s infinite alternate;
+  }
+  @keyframes slowZoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.08); }
   }
   .hero-content {
     position: relative; z-index: 2;
@@ -111,7 +164,7 @@
     font-weight: 300;
     color: var(--white);
     line-height: 1.0;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
   }
   .hero-title em {
     font-style: italic;
@@ -119,8 +172,8 @@
   }
   .hero-sub {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1rem, 2.5vw, 1.4rem);
-    color: rgba(255,255,255,0.75);
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    color: rgba(255,255,255,0.8);
     font-style: italic;
     font-weight: 300;
     margin-bottom: 40px;
@@ -140,7 +193,8 @@
     cursor: pointer;
     text-decoration: none;
     display: inline-block;
-    transition: background 0.2s, transform 0.2s;
+    transition: background 0.3s, transform 0.3s;
+    font-weight: 500;
   }
   .btn-primary:hover { background: var(--gold-lt); transform: translateY(-2px); }
   .btn-outline {
@@ -154,21 +208,22 @@
     cursor: pointer;
     text-decoration: none;
     display: inline-block;
-    transition: border-color 0.2s, color 0.2s;
+    transition: all 0.3s;
   }
-  .btn-outline:hover { border-color: var(--gold-lt); color: var(--gold-lt); }
+  .btn-outline:hover { border-color: var(--gold-lt); color: var(--gold-lt); background: rgba(255,255,255,0.05); }
 
   .hero-scroll {
     position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
     display: flex; flex-direction: column; align-items: center; gap: 8px;
-    color: rgba(255,255,255,0.5); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(255,255,255,0.6); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    z-index: 2;
   }
   .scroll-line {
     width: 1px; height: 50px;
-    background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
+    background: linear-gradient(to bottom, rgba(255,255,255,0.6), transparent);
     animation: scrollLine 2s ease-in-out infinite;
   }
-  @keyframes scrollLine { 0%,100%{opacity:0.3;} 50%{opacity:1;} }
+  @keyframes scrollLine { 0%,100%{opacity:0.3; transform:scaleY(0.8);} 50%{opacity:1; transform:scaleY(1);} }
 
   /* QUICK STRIP */
   .strip {
@@ -178,31 +233,35 @@
   }
   .strip-item {
     display: flex; align-items: center; gap: 10px;
-    color: rgba(255,255,255,0.7); font-size: 0.78rem; letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.75); font-size: 0.78rem; letter-spacing: 0.06em;
   }
   .strip-icon { color: var(--gold-lt); font-size: 1rem; }
 
   /* SECTION BASE */
   .section-label {
     font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 12px;
+    color: var(--gold); margin-bottom: 12px; font-weight: 500;
   }
   .section-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
     font-weight: 400; color: var(--ink); line-height: 1.15; margin-bottom: 20px;
   }
   .section-title em { font-style: italic; color: var(--sage-dk); }
   .section-body { font-size: 0.95rem; line-height: 1.8; color: var(--mid); max-width: 560px; }
 
   /* ABOUT */
-  .about-wrap { background: var(--cream); padding: 96px 48px; }
+  .about-wrap { background: var(--cream); padding: 120px 48px; }
   .about {
     display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
     max-width: 1200px; margin: 0 auto;
   }
   .about-img-wrap { position: relative; }
-  .about-img { width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; }
+  .about-img { width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; box-shadow: 0 20px 50px rgba(28,43,37,0.15); }
+  .about-img-wrap::before {
+    content: ''; position: absolute; top: -20px; left: -20px; width: 100%; height: 100%;
+    border: 2px solid var(--sage-lt); z-index: -1; opacity: 0.5;
+  }
   .about-badge {
     position: absolute; bottom: -24px; right: -24px;
     background: var(--sage-dk); color: var(--white);
@@ -210,6 +269,7 @@
     width: 140px; height: 140px;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     border-radius: 50%;
+    box-shadow: 0 10px 30px rgba(46,95,82,0.3);
   }
   .about-badge-num { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; line-height: 1; color: var(--gold-lt); }
   .about-badge-txt { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
@@ -219,14 +279,12 @@
   .feat-dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
 
   /* ROOMS */
-  .rooms-wrap { background: var(--white); padding: 96px 48px; }
+  .rooms-wrap { background: var(--white); padding: 120px 48px; }
   .rooms-header { text-align: center; max-width: 600px; margin: 0 auto 56px; }
   .rooms-header .section-body { margin: 0 auto; }
   .rooms-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; max-width: 1200px; margin: 0 auto; }
-  .room-card { background: var(--cream); overflow: hidden; transition: transform 0.3s; cursor: pointer; }
-  .room-card:hover { transform: translateY(-6px); }
-  .room-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; transition: transform 0.5s; }
-  .room-card:hover .room-img { transform: scale(1.04); }
+  .room-card { background: var(--cream); overflow: hidden; transition: transform 0.4s, box-shadow 0.4s; cursor: pointer; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
+  .room-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(28,43,37,0.1); }
   .room-img-wrap { overflow: hidden; position: relative; }
 
   /* SLIDESHOW */
@@ -236,129 +294,125 @@
     object-fit: cover; opacity: 0;
     transition: opacity 0.8s ease;
   }
-  .slideshow img.active { opacity: 1; }
+  .slideshow img.active { opacity: 1; transform: scale(1.02); }
   .slide-dots {
-    position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
-    display: flex; gap: 5px; z-index: 3;
+    position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 6px; z-index: 3;
   }
   .slide-dot {
-    width: 6px; height: 6px; border-radius: 50%;
+    width: 7px; height: 7px; border-radius: 50%;
     background: rgba(255,255,255,0.45); border: none; padding: 0; cursor: pointer;
     transition: background 0.3s, transform 0.2s;
   }
   .slide-dot.active { background: #fff; transform: scale(1.3); }
   .slide-arrow {
     position: absolute; top: 50%; transform: translateY(-50%);
-    background: rgba(0,0,0,0.35); border: none; color: #fff;
-    width: 30px; height: 30px; border-radius: 50%;
+    background: rgba(28,43,37,0.6); border: none; color: #fff;
+    width: 36px; height: 36px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    cursor: pointer; z-index: 3; font-size: 0.85rem;
-    opacity: 0; transition: opacity 0.2s;
+    cursor: pointer; z-index: 3; font-size: 1.1rem;
+    opacity: 0; transition: opacity 0.3s, background 0.3s;
   }
   .slideshow:hover .slide-arrow { opacity: 1; }
-  .slide-arrow.prev { left: 10px; }
-  .slide-arrow.next { right: 10px; }
-  .room-info { padding: 24px 24px 28px; }
+  .slide-arrow:hover { background: var(--gold); }
+  .slide-arrow.prev { left: 12px; }
+  .slide-arrow.next { right: 12px; }
+  .room-info { padding: 28px 28px 32px; }
   .room-type { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
-  .room-name { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; margin-bottom: 10px; color: var(--ink); }
-  .room-desc { font-size: 0.83rem; line-height: 1.7; color: var(--mid); margin-bottom: 18px; }
-  .room-price { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--sage-dk); }
-  .room-price span { font-size: 0.8rem; font-family: 'DM Sans', sans-serif; color: var(--mid); }
-  .room-amenities { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
-  .tag { font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; background: var(--warm); color: var(--mid); padding: 4px 10px; }
+  .room-name { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 400; margin-bottom: 12px; color: var(--ink); }
+  .room-desc { font-size: 0.88rem; line-height: 1.7; color: var(--mid); margin-bottom: 20px; }
+  .room-price { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--sage-dk); font-weight: 500; }
+  .room-price span { font-size: 0.85rem; font-family: 'DM Sans', sans-serif; color: var(--mid); font-weight: 400; }
+  .room-amenities { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .tag { font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; background: var(--warm); color: var(--mid); padding: 5px 12px; border-radius: 2px; }
 
   /* AMENITIES */
-  .amenities-wrap { background: var(--sage-dk); padding: 96px 48px; }
+  .amenities-wrap { background: var(--sage-dk); padding: 120px 48px; position: relative; }
   .amenities-inner { max-width: 1200px; margin: 0 auto; }
   .amenities-wrap .section-title { color: var(--white); }
   .amenities-wrap .section-label { color: var(--gold-lt); }
   .amenities-wrap .section-body { color: rgba(255,255,255,0.65); }
-  .amenities-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-top: 56px; }
-  .amenity-box { background: rgba(255,255,255,0.06); padding: 36px 28px; text-align: center; transition: background 0.3s; }
-  .amenity-box:hover { background: rgba(255,255,255,0.12); }
-  .amenity-icon { font-size: 2rem; margin-bottom: 14px; }
-  .amenity-name { font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.85); margin-bottom: 8px; }
-  .amenity-note { font-size: 0.75rem; color: rgba(255,255,255,0.45); line-height: 1.5; }
+  .amenities-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-top: 56px; background: rgba(255,255,255,0.1); }
+  .amenity-box { background: var(--sage-dk); padding: 40px 28px; text-align: center; transition: background 0.4s; }
+  .amenity-box:hover { background: rgba(255,255,255,0.08); }
+  .amenity-icon { font-size: 2.2rem; margin-bottom: 16px; display: block; }
+  .amenity-name { font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.9); margin-bottom: 8px; font-weight: 500; }
+  .amenity-note { font-size: 0.78rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
 
   /* GALLERY */
-  .gallery-wrap { background: var(--cream); padding: 96px 48px; }
+  .gallery-wrap { background: var(--cream); padding: 120px 48px; }
   .gallery-header { text-align: center; max-width: 560px; margin: 0 auto 48px; }
   .gallery-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: 240px 240px;
-    gap: 8px; max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: 260px 260px;
+    gap: 10px; max-width: 1200px; margin: 0 auto;
   }
   .gallery-grid .g1 { grid-column: 1/3; grid-row: 1/3; }
   .gallery-grid .g5 { grid-column: 4/5; grid-row: 1/3; }
-  .gal-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
-  .gal-wrap { overflow: hidden; }
-  .gal-wrap:hover .gal-img { transform: scale(1.05); }
+  .gal-wrap { overflow: hidden; position: relative; }
+  .gal-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
+  .gal-wrap::after {
+    content: ''; position: absolute; inset: 0; background: rgba(28,43,37,0.2);
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .gal-wrap:hover .gal-img { transform: scale(1.06); }
+  .gal-wrap:hover::after { opacity: 1; }
 
   /* LOCATION */
   .location-wrap { background: var(--white); display: grid; grid-template-columns: 1fr 1fr; }
   .loc-info { padding: 96px 64px; display: flex; flex-direction: column; justify-content: center; }
   .loc-map { background: #d4e0d9; min-height: 480px; overflow: hidden; }
-  .loc-map iframe { width: 100%; height: 100%; border: none; min-height: 480px; }
+  .loc-map iframe { width: 100%; height: 100%; border: none; min-height: 480px; filter: grayscale(20%) contrast(1.1); }
   .loc-details { margin-top: 32px; display: flex; flex-direction: column; gap: 18px; }
   .loc-row { display: flex; gap: 14px; align-items: flex-start; }
-  .loc-icon { color: var(--gold); font-size: 1.1rem; margin-top: 2px; flex-shrink: 0; }
-  .loc-text { font-size: 0.88rem; line-height: 1.6; color: var(--mid); }
+  .loc-icon { color: var(--gold); font-size: 1.2rem; margin-top: 2px; flex-shrink: 0; }
+  .loc-text { font-size: 0.9rem; line-height: 1.6; color: var(--mid); }
   .loc-text strong { color: var(--ink); font-weight: 500; display: block; margin-bottom: 2px; }
 
   /* BOOKING */
   .booking-wrap {
     background: linear-gradient(135deg, var(--sage-dk) 0%, var(--ink) 100%);
-    text-align: center; padding: 96px 48px;
+    text-align: center; padding: 120px 48px;
   }
   .booking-wrap .section-title { color: var(--white); }
   .booking-wrap .section-label { color: var(--gold-lt); }
   .booking-form {
     display: flex; gap: 0; flex-wrap: wrap; justify-content: center;
-    margin: 40px auto 0; max-width: 860px;
-    background: rgba(255,255,255,0.07); padding: 8px;
+    margin: 40px auto 0; max-width: 1000px;
+    background: rgba(255,255,255,0.08); padding: 10px;
+    border-radius: 2px;
   }
   .form-field {
-    flex: 1; min-width: 160px; display: flex; flex-direction: column;
-    padding: 14px 18px; border-right: 1px solid rgba(255,255,255,0.1);
+    flex: 1; min-width: 180px; display: flex; flex-direction: column;
+    padding: 14px 20px; border-right: 1px solid rgba(255,255,255,0.1);
   }
   .form-field:last-of-type { border-right: none; }
   .form-label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 6px; }
-  .form-input { background: transparent; border: none; color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; outline: none; }
+  .form-input { background: transparent; border: none; color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 0.95rem; outline: none; }
   .form-input::placeholder { color: rgba(255,255,255,0.4); }
+  select.form-input { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml;UTF8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ffffff80' stroke-width='2'><polyline points='6 9 12 15 18 9'></polyline></svg>"); background-repeat: no-repeat; background-position: right center; padding-right: 20px; }
+  select.form-input option { background: var(--ink); color: var(--white); }
+  
   .booking-btn {
-    background: var(--gold); color: var(--white); border: none; padding: 0 32px;
-    font-family: 'DM Sans', sans-serif; font-size: 0.8rem; letter-spacing: 0.12em;
-    text-transform: uppercase; cursor: pointer; min-width: 120px; transition: background 0.2s;
+    background: var(--gold); color: var(--white); border: none; padding: 0 40px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.85rem; letter-spacing: 0.12em;
+    text-transform: uppercase; cursor: pointer; min-width: 180px; transition: background 0.3s; font-weight: 500;
   }
   .booking-btn:hover { background: var(--gold-lt); }
-  .booking-note { color: rgba(255,255,255,0.4); font-size: 0.75rem; margin-top: 18px; }
-
-  .booking-actions {
-    display: flex; align-items: center; justify-content: center;
-    gap: 16px; flex-wrap: wrap;
-  }
-  .bk-btn {
-    display: inline-flex; align-items: center; gap: 9px;
-    padding: 13px 28px; font-family: 'DM Sans', sans-serif;
-    font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase;
-    border: none; cursor: pointer; font-weight: 500;
-    transition: transform 0.2s, opacity 0.2s;
-  }
-  .bk-btn:hover { transform: translateY(-2px); opacity: 0.9; }
-  .bk-wa  { background: #25D366; color: #fff; }
-  .bk-email { background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,0.4); }
-  .bk-email:hover { border-color: var(--gold-lt); color: var(--gold-lt); }
-  .bk-divider { color: rgba(255,255,255,0.3); font-size: 0.8rem; letter-spacing: 0.1em; }
+  .booking-note { color: rgba(255,255,255,0.4); font-size: 0.8rem; margin-top: 20px; }
 
   /* CONTACT */
-  .contact-wrap { background: var(--cream); padding: 96px 48px; text-align: center; }
+  .contact-wrap { background: var(--cream); padding: 120px 48px; text-align: center; }
+  .contact-form { display: flex; flex-direction: column; gap: 14px; max-width: 500px; margin: 0 auto; text-align: left; }
   .contact-input {
-    padding: 14px 18px; border: 1px solid rgba(0,0,0,0.12);
+    padding: 16px 18px; border: 1px solid rgba(0,0,0,0.1);
     background: var(--white); font-family: 'DM Sans', sans-serif;
     font-size: 0.9rem; outline: none; color: var(--ink); width: 100%;
+    transition: border-color 0.2s;
   }
+  .contact-input:focus { border-color: var(--gold); }
 
   /* FAQ */
-  .faq-wrap { background: var(--white); padding: 80px 48px; }
+  .faq-wrap { background: var(--white); padding: 120px 48px; }
   .faq-inner { max-width: 860px; margin: 0 auto; }
   .faq-list { margin-top: 44px; display: flex; flex-direction: column; gap: 0; }
   .faq-item {
@@ -368,9 +422,9 @@
   .faq-item:first-child { border-top: 1px solid rgba(0,0,0,0.08); }
   .faq-q {
     width: 100%; background: none; border: none; text-align: left;
-    padding: 22px 0; cursor: pointer;
+    padding: 24px 0; cursor: pointer;
     display: flex; justify-content: space-between; align-items: center; gap: 16px;
-    font-family: 'Cormorant Garamond', serif; font-size: 1.15rem;
+    font-family: 'Cormorant Garamond', serif; font-size: 1.25rem;
     font-weight: 400; color: var(--ink); letter-spacing: 0.01em;
     transition: color 0.2s;
   }
@@ -379,282 +433,158 @@
     flex-shrink: 0; width: 28px; height: 28px;
     border: 1.5px solid var(--gold); color: var(--gold);
     display: flex; align-items: center; justify-content: center;
-    font-size: 1rem; transition: transform 0.3s, background 0.2s;
+    font-size: 1.1rem; transition: transform 0.3s, background 0.2s, color 0.2s;
     border-radius: 50%;
   }
   .faq-item.open .faq-icon { transform: rotate(45deg); background: var(--gold); color: #fff; }
   .faq-a {
     max-height: 0; overflow: hidden;
-    transition: max-height 0.35s ease, padding 0.3s;
-    font-size: 0.88rem; line-height: 1.8; color: var(--mid);
+    transition: max-height 0.4s ease, padding 0.3s;
+    font-size: 0.9rem; line-height: 1.8; color: var(--mid);
     padding: 0 40px 0 0;
   }
-  .faq-item.open .faq-a { max-height: 200px; padding-bottom: 20px; }
-  @media(max-width:900px) { .faq-wrap { padding: 60px 24px; } }
+  .faq-item.open .faq-a { max-height: 300px; padding-bottom: 24px; }
+
+  /* PROPERTY RULES */
+  .rules-wrap { background: var(--warm); padding: 96px 48px; }
+  .rules-inner { max-width: 960px; margin: 0 auto; }
+  .rules-header { margin-bottom: 36px; }
+  .rules-times {
+    display: flex; gap: 20px; flex-wrap: wrap;
+    margin-top: 12px; margin-bottom: 28px;
+  }
+  .rules-time-item {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--white); padding: 14px 24px;
+    font-size: 0.9rem; color: var(--ink); font-weight: 500;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+  }
+  .rules-time-item span { color: var(--gold); font-size: 1.1rem; }
+  .rules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .rule-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    background: var(--white); padding: 16px 20px;
+    font-size: 0.88rem; color: var(--mid); line-height: 1.5;
+  }
+  .rule-dot { color: var(--gold); font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
+  .rule-alert {
+    background: rgba(184,146,90,0.15); border-left: 3px solid var(--gold);
+    padding: 16px 20px; margin-bottom: 24px;
+    font-size: 0.88rem; color: var(--mid); line-height: 1.6;
+  }
+  .rule-alert strong { color: var(--ink); }
 
   /* FOOTER */
-  footer { background: var(--ink); padding: 60px 48px 36px; }
+  footer { background: var(--ink); padding: 80px 48px 36px; }
   .footer-top {
     display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px;
     padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.08);
     max-width: 1200px; margin: 0 auto;
   }
-  .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: var(--white); text-decoration: none; display: block; margin-bottom: 12px; letter-spacing: 0.05em; }
+  .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600; color: var(--white); text-decoration: none; display: block; margin-bottom: 16px; letter-spacing: 0.05em; }
   .footer-logo span { color: var(--gold-lt); }
-  .footer-tagline { font-size: 0.82rem; line-height: 1.7; color: rgba(255,255,255,0.45); max-width: 240px; }
-  .footer-col-title { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-lt); margin-bottom: 18px; }
-  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-  .footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.83rem; transition: color 0.2s; }
+  .footer-tagline { font-size: 0.85rem; line-height: 1.7; color: rgba(255,255,255,0.45); max-width: 260px; }
+  .footer-col-title { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-lt); margin-bottom: 18px; }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
   .footer-links a:hover { color: var(--gold-lt); }
   .footer-bottom {
     display: flex; justify-content: space-between; align-items: center;
     padding-top: 28px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap; gap: 12px;
   }
-  .footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
-  .social-links { display: flex; gap: 16px; }
+  .footer-copy { font-size: 0.78rem; color: rgba(255,255,255,0.3); }
+  .social-links { display: flex; gap: 12px; margin-top: 24px; }
   .social-links a {
-    width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.15);
+    width: 38px; height: 38px; border: 1px solid rgba(255,255,255,0.15);
     display: flex; align-items: center; justify-content: center;
-    color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.8rem;
-    transition: border-color 0.2s, color 0.2s;
+    color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.9rem;
+    transition: all 0.3s;
   }
-  .social-links a:hover { border-color: var(--gold-lt); color: var(--gold-lt); }
+  .social-links a:hover { border-color: var(--gold-lt); color: var(--gold-lt); background: rgba(255,255,255,0.05); }
 
   .room-cancellation-badge {
-    position: absolute; top: 12px; left: 12px;
-    background: rgba(46,95,82,0.92);
-    color: #fff; font-size: 0.68rem; letter-spacing: 0.08em;
-    text-transform: uppercase; padding: 5px 10px;
+    position: absolute; top: 16px; left: 16px;
+    background: rgba(46,95,82,0.95);
+    color: #fff; font-size: 0.7rem; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 6px 12px;
     backdrop-filter: blur(4px);
+    z-index: 4;
   }
 
-  /* PROPERTY RULES */
-  .rules-wrap { background: var(--warm); padding: 72px 48px; }
-  .rules-inner { max-width: 960px; margin: 0 auto; }
-  .rules-header { margin-bottom: 36px; }
-  .rules-times {
-    display: flex; gap: 32px; flex-wrap: wrap;
-    margin-top: 12px; margin-bottom: 28px;
+  /* SCROLL ANIMATIONS */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
   }
-  .rules-time-item {
-    display: flex; align-items: center; gap: 8px;
-    background: var(--white); padding: 12px 22px;
-    font-size: 0.85rem; color: var(--ink); font-weight: 500;
-  }
-  .rules-time-item span { color: var(--gold); font-size: 1rem; }
-  .rules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .rule-item {
-    display: flex; align-items: flex-start; gap: 10px;
-    background: var(--white); padding: 14px 18px;
-    font-size: 0.83rem; color: var(--mid); line-height: 1.5;
-  }
-  .rule-dot { color: var(--gold); font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
-  .rule-alert {
-    background: rgba(184,146,90,0.12); border-left: 3px solid var(--gold);
-    padding: 14px 18px; margin-bottom: 20px;
-    font-size: 0.83rem; color: var(--mid); line-height: 1.6;
-  }
-  .rule-alert strong { color: var(--ink); }
-  /* HAMBURGER NAV */
-  .nav-hamburger {
-    display: none; flex-direction: column; gap: 5px; cursor: pointer;
-    background: none; border: none; padding: 4px; z-index: 200;
-  }  .nav-hamburger span {
-    display: block; width: 24px; height: 2px;
-    background: var(--white); border-radius: 2px;
-    transition: transform 0.3s, opacity 0.3s;
-  }
-  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
-  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-  .mobile-menu {
-    display: none; position: fixed; inset: 0; z-index: 150;
-    background: rgba(28,43,37,0.97); backdrop-filter: blur(16px);
-    flex-direction: column; align-items: center; justify-content: center;
-    gap: 24px; opacity: 0; pointer-events: none;
-    transition: opacity 0.3s;
-  }
-  .mobile-menu.open { opacity: 1; pointer-events: all; }
-  .mobile-menu a {
-    color: var(--white); text-decoration: none;
-    font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 300;
-    letter-spacing: 0.05em; transition: color 0.2s;
-  }
-  .mobile-menu a:hover { color: var(--gold-lt); }
-  .mobile-menu .mobile-book {
-    background: var(--gold); color: var(--white);
-    font-family: 'DM Sans', sans-serif; font-size: 0.78rem;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    padding: 12px 30px; margin-top: 8px;
-  }
-  .mobile-close {
-    position: absolute; top: 20px; right: 24px;
-    background: none; border: 1.5px solid rgba(255,255,255,0.25);
-    color: var(--white); width: 38px; height: 38px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; font-size: 1.1rem; line-height: 1;
-    transition: border-color 0.2s, color 0.2s;
-  }
-  .mobile-close:hover { border-color: var(--gold-lt); color: var(--gold-lt); }
-
-  /* Always-visible arrows on touch */
-  @media (hover: none) {
-    .slide-arrow { opacity: 1 !important; }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  /* ── TABLET (≤ 960px) ── */
-  @media (max-width: 960px) {
+  /* RESPONSIVE */
+  @media(max-width: 900px) {
     nav { padding: 18px 24px; }
-    nav.scrolled { padding: 14px 24px; }
-    .nav-links, .nav-book { display: none; }
-    .nav-hamburger { display: flex; }
-    .mobile-menu { display: flex; }
-
-    .about-wrap { padding: 72px 28px; }
-    .about { grid-template-columns: 1fr; gap: 48px; }
-    .about-badge { right: 0; bottom: -18px; width: 120px; height: 120px; }
+    .menu-toggle { display: block; }
+    .nav-links {
+      position: fixed; top: 0; right: 0; height: 100vh; width: 100%;
+      background: var(--ink); flex-direction: column; justify-content: center;
+      align-items: center; transform: translateX(100%); transition: transform 0.4s ease;
+      gap: 40px; z-index: 101;
+    }
+    .nav-links.active { transform: translateX(0); }
+    .nav-links a { font-size: 1.2rem; }
+    .nav-book { display: none; }
+    
+    .about-wrap, .rooms-wrap, .amenities-wrap, .gallery-wrap, .booking-wrap, .contact-wrap, .faq-wrap { padding: 80px 24px; }
+    .about { grid-template-columns: 1fr; gap: 60px; }
+    .about-badge { right: 20px; bottom: -20px; width: 110px; height: 110px; padding: 20px; }
     .about-badge-num { font-size: 2rem; }
-    .about-img { aspect-ratio: 16/9; }
-    .about-features { grid-template-columns: 1fr 1fr; }
-
-    .rooms-wrap { padding: 72px 28px; }
-    .rooms-grid { grid-template-columns: 1fr; max-width: 520px; }
-
-    .amenities-wrap { padding: 72px 28px; }
+    .rooms-grid { grid-template-columns: 1fr; max-width: 500px; }
     .amenities-grid { grid-template-columns: repeat(2, 1fr); }
-
-    .gallery-wrap { padding: 72px 28px; }
-    .gallery-grid {
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 200px 200px 200px;
-    }
-    .gallery-grid .g1 { grid-column: 1 / 3; grid-row: 1 / 2; }
-    .gallery-grid .g5 { grid-column: auto; grid-row: auto; }
-
+    .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: 200px 200px 200px; }
+    .gallery-grid .g1, .gallery-grid .g5 { grid-column: auto; grid-row: auto; }
+    .gallery-grid .g1 { grid-column: 1/3; }
     .location-wrap { grid-template-columns: 1fr; }
-    .loc-info { padding: 60px 28px 40px; }
-    .loc-map { min-height: 320px; }
-    .loc-map iframe { min-height: 320px; }
-
-    .booking-wrap { padding: 72px 28px; }
-    .booking-form { flex-direction: column; padding: 0; background: none; }
-    .form-field {
-      border-right: none; border-bottom: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.07); padding: 16px 20px;
-    }
-    .form-field:last-of-type { border-bottom: none; }
-    .booking-btn { padding: 18px; width: 100%; margin-top: 12px; font-size: 0.85rem; }
-    .booking-actions { flex-direction: column; width: 100%; max-width: 400px; margin: 0 auto; }
-    .bk-btn { width: 100%; justify-content: center; padding: 15px 20px; }
-    .bk-divider { order: 2; }
-
-    .contact-wrap { padding: 72px 28px; }
-    .faq-wrap { padding: 72px 28px; }
-    .rules-wrap { padding: 60px 28px; }
+    .loc-info { padding: 64px 24px; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .strip { padding: 14px 24px; gap: 24px; }
+    .booking-form { flex-direction: column; background: transparent; padding: 0; gap: 12px; }
+    .form-field { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.08); padding: 16px 20px; }
+    .booking-btn { padding: 18px; width: 100%; }
     .rules-grid { grid-template-columns: 1fr; }
-
-    footer { padding: 56px 28px 32px; }
-    .footer-top { grid-template-columns: 1fr 1fr; gap: 36px; }
-    .strip { padding: 14px 20px; gap: 0; overflow-x: auto; justify-content: flex-start; flex-wrap: nowrap; scrollbar-width: none; }
-    .strip::-webkit-scrollbar { display: none; }
-    .strip-item { flex-shrink: 0; padding: 0 20px; white-space: nowrap; }
+    .rules-wrap { padding: 64px 24px; }
   }
-
-  /* ── MOBILE (≤ 600px) ── */
-  @media (max-width: 600px) {
-    .hero { min-height: 100svh; }
-    .hero-eyebrow { font-size: 0.65rem; letter-spacing: 0.2em; }
-    .hero-sub { margin-bottom: 32px; }
-    .btn-primary, .btn-outline { padding: 13px 28px; font-size: 0.75rem; width: 100%; text-align: center; }
-    .hero-cta { width: 100%; max-width: 280px; flex-direction: column; gap: 10px; }
-
-    .about-wrap { padding: 60px 20px; }
-    .about-img { aspect-ratio: 4/3; }
-    .about-badge { width: 100px; height: 100px; right: 0; bottom: -14px; }
-    .about-badge-num { font-size: 1.6rem; }
-    .about-badge-txt { font-size: 0.55rem; }
+  @media(max-width: 600px) {
+    .amenities-grid { grid-template-columns: 1fr 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+    .gallery-grid { grid-template-columns: 1fr; }
+    .gallery-grid .g1 { grid-column: auto; }
     .about-features { grid-template-columns: 1fr; }
-
-    .rooms-wrap { padding: 60px 20px; }
-    .rooms-grid { max-width: 100%; }
-    .room-info { padding: 18px 18px 22px; }
-    .room-amenities { gap: 6px; }
-    .tag { font-size: 0.62rem; padding: 3px 8px; }
-
-    .amenities-wrap { padding: 60px 20px; }
-    .amenities-grid { grid-template-columns: 1fr 1fr; gap: 2px; }
-    .amenity-box { padding: 24px 16px; }
-    .amenity-icon { font-size: 1.6rem; margin-bottom: 10px; }
-    .amenity-name { font-size: 0.75rem; }
-    .amenity-note { font-size: 0.7rem; }
-
-    .gallery-wrap { padding: 60px 20px; }
-    .gallery-grid {
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 160px 160px 160px;
-    }
-    .gallery-grid .g1 { grid-column: 1 / 3; }
-
-    .loc-info { padding: 48px 20px 32px; }
-    .loc-details { gap: 14px; }
-    .loc-map { min-height: 260px; }
-    .loc-map iframe { min-height: 260px; }
-
-    .booking-wrap { padding: 60px 20px; }
-    .form-input { font-size: 1rem; }
-
-    .contact-wrap { padding: 60px 20px; }
-    .section-body { font-size: 0.9rem; }
-
-    .rules-wrap { padding: 48px 20px; }
-    .rules-times { gap: 12px; }
-    .rules-time-item { padding: 10px 16px; font-size: 0.8rem; flex: 1; justify-content: center; }
-
-    .faq-wrap { padding: 60px 20px; }
-    .faq-q { font-size: 1rem; padding: 18px 0; }
-    .faq-icon { width: 24px; height: 24px; font-size: 0.9rem; }
-    .faq-a { font-size: 0.85rem; }
-
-    footer { padding: 48px 20px 28px; }
-    .footer-top { grid-template-columns: 1fr; gap: 32px; }
-    .footer-tagline { max-width: 100%; }
-    .footer-bottom { flex-direction: column; text-align: center; gap: 8px; }
-
-    .section-title { font-size: clamp(1.7rem, 7vw, 2.4rem); }
   }
 </style>
 </head>
 <body>
 
-<!-- MOBILE MENU OVERLAY -->
-<div class="mobile-menu" id="mobileMenu">
-  <button class="mobile-close" onclick="closeMobileMenu()" aria-label="Close menu">✕</button>
-  <a href="#about" onclick="closeMobileMenu()">About</a>
-  <a href="#rooms" onclick="closeMobileMenu()">Rooms</a>
-  <a href="#amenities" onclick="closeMobileMenu()">Amenities</a>
-  <a href="#rules" onclick="closeMobileMenu()">Rules</a>
-  <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
-  <a href="#location" onclick="closeMobileMenu()">Location</a>
-  <a href="#contact" onclick="closeMobileMenu()">Contact</a>
-  <a href="#book" class="mobile-book" onclick="closeMobileMenu()">Book Now</a>
-</div>
-
 <!-- NAV -->
 <nav id="mainNav">
   <a href="#" class="nav-logo">Tulip <span>Inn</span></a>
-  <ul class="nav-links">
+  <ul class="nav-links" id="navLinks">
     <li><a href="#about">About</a></li>
     <li><a href="#rooms">Rooms</a></li>
     <li><a href="#amenities">Amenities</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#location">Location</a></li>
     <li><a href="#rules">Rules</a></li>
     <li><a href="#faq">FAQ</a></li>
-    <li><a href="#location">Location</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <a href="#book" class="nav-book">Book Now</a>
-  <button class="nav-hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
-    <span></span><span></span><span></span>
+  <button class="menu-toggle" id="menuToggle">
+    <span></span>
+    <span></span>
+    <span></span>
   </button>
 </nav>
 
@@ -688,7 +618,7 @@
 
 <!-- ABOUT -->
 <div id="about" class="about-wrap">
-  <div class="about">
+  <div class="about reveal">
     <div class="about-img-wrap">
       <img class="about-img" src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=700&q=80" alt="Tulip Inn Hotel Room">
       <div class="about-badge">
@@ -716,14 +646,14 @@
 
 <!-- ROOMS -->
 <div id="rooms" class="rooms-wrap">
-  <div class="rooms-header">
+  <div class="rooms-header reveal">
     <p class="section-label">Accommodations</p>
     <h2 class="section-title">Our <em>Rooms & Suites</em></h2>
     <p class="section-body">Every room is spacious, clean, and designed for comfort — featuring a comfortable bed with fresh linens, well-maintained furnishings, and ample natural light that creates a relaxing atmosphere. Equipped with essential amenities, each room offers privacy and a peaceful environment ideal for couples, families, or solo travelers.</p>
   </div>
   <div class="rooms-grid">
     <!-- The Pansy -->
-    <div class="room-card">
+    <div class="room-card reveal">
       <div class="room-img-wrap">
         <div class="slideshow" id="slideshow-pansy">
           <img src="https://r1imghtlak.mmtcdn.com/c192ee38-ece9-42f6-94c4-8bea33e84266.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Pansy" class="active">
@@ -746,12 +676,12 @@
         <div class="room-amenities">
           <span class="tag">AC</span><span class="tag">Free Wi-Fi</span><span class="tag">Bathroom</span><span class="tag">Mineral Water</span><span class="tag">Kettle</span><span class="tag">Iron</span>
         </div>
-        <div class="room-price">₹2,413 <span>/ night</span> <small style="color:var(--mid);font-size:0.72rem;">+ ₹270 taxes</small></div>
-        <p style="font-size:0.72rem;color:var(--sage-dk);margin-top:6px;">Free cancellation till 24 hrs before check-in</p>
+        <div class="room-price">₹2,413 <span>/ night</span> <small style="color:var(--mid);font-size:0.75rem;">+ ₹270 taxes</small></div>
+        <p style="font-size:0.75rem;color:var(--sage-dk);margin-top:8px;">Free cancellation till 24 hrs before check-in</p>
       </div>
     </div>
     <!-- The Lilac -->
-    <div class="room-card">
+    <div class="room-card reveal">
       <div class="room-img-wrap">
         <div class="slideshow" id="slideshow-lilac">
           <img src="https://r1imghtlak.mmtcdn.com/640c3a76-21c6-461d-9642-503e84d25491.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Lilac" class="active">
@@ -775,12 +705,12 @@
         <div class="room-amenities">
           <span class="tag">AC</span><span class="tag">Wi-Fi</span><span class="tag">Bathroom</span><span class="tag">Mineral Water</span><span class="tag">Kettle</span><span class="tag">Iron</span>
         </div>
-        <div class="room-price">₹2,815 <span>/ night</span> <small style="color:var(--mid);font-size:0.72rem;">+ ₹316 taxes</small></div>
-        <p style="font-size:0.72rem;color:var(--sage-dk);margin-top:6px;">Free cancellation till 24 hrs before check-in</p>
+        <div class="room-price">₹2,815 <span>/ night</span> <small style="color:var(--mid);font-size:0.75rem;">+ ₹316 taxes</small></div>
+        <p style="font-size:0.75rem;color:var(--sage-dk);margin-top:8px;">Free cancellation till 24 hrs before check-in</p>
       </div>
     </div>
     <!-- The Lily -->
-    <div class="room-card">
+    <div class="room-card reveal">
       <div class="room-img-wrap">
         <div class="slideshow" id="slideshow-lily">
           <img src="https://r1imghtlak.mmtcdn.com/fa33bd32-105f-4150-b683-2d19f6b23a99.jpg?output-quality=75&downsize=*:500&crop=990:500" alt="The Lily" class="active">
@@ -804,8 +734,8 @@
         <div class="room-amenities">
           <span class="tag">AC</span><span class="tag">Wi-Fi</span><span class="tag">Bathroom</span><span class="tag">Mineral Water</span><span class="tag">Kettle</span><span class="tag">Iron</span>
         </div>
-        <div class="room-price">₹2,815 <span>/ night</span> <small style="color:var(--mid);font-size:0.72rem;">+ ₹316 taxes</small></div>
-        <p style="font-size:0.72rem;color:var(--sage-dk);margin-top:6px;">Free cancellation till 24 hrs before check-in</p>
+        <div class="room-price">₹2,815 <span>/ night</span> <small style="color:var(--mid);font-size:0.75rem;">+ ₹316 taxes</small></div>
+        <p style="font-size:0.75rem;color:var(--sage-dk);margin-top:8px;">Free cancellation till 24 hrs before check-in</p>
       </div>
     </div>
   </div>
@@ -814,9 +744,11 @@
 <!-- AMENITIES -->
 <div id="amenities" class="amenities-wrap">
   <div class="amenities-inner">
-    <p class="section-label">What We Offer</p>
-    <h2 class="section-title">Facilities & <em style="color:var(--sage-lt);">Amenities</em></h2>
-    <div class="amenities-grid">
+    <div class="reveal">
+      <p class="section-label">What We Offer</p>
+      <h2 class="section-title">Facilities & <em style="color:var(--sage-lt);">Amenities</em></h2>
+    </div>
+    <div class="amenities-grid reveal">
       <div class="amenity-box"><div class="amenity-icon">🍽️</div><div class="amenity-name">Restaurant</div><div class="amenity-note">Multi-cuisine dining with Assamese specialties and North Indian favourites</div></div>
       <div class="amenity-box"><div class="amenity-icon">📶</div><div class="amenity-name">Free Wi-Fi</div><div class="amenity-note">High-speed internet available throughout the property</div></div>
       <div class="amenity-box"><div class="amenity-icon">🏛️</div><div class="amenity-name">Conference Hall</div><div class="amenity-note">Well-equipped meeting and event space for corporate gatherings</div></div>
@@ -831,11 +763,11 @@
 
 <!-- GALLERY -->
 <div id="gallery" class="gallery-wrap">
-  <div class="gallery-header">
+  <div class="gallery-header reveal">
     <p class="section-label">Visual Journey</p>
     <h2 class="section-title">A Glimpse of <em>Tulip Inn</em></h2>
   </div>
-  <div class="gallery-grid">
+  <div class="gallery-grid reveal">
     <div class="gal-wrap g1"><img class="gal-img" src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80" alt="Hotel Room"></div>
     <div class="gal-wrap"><img class="gal-img" src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=600&q=80" alt="Room Interior"></div>
     <div class="gal-wrap"><img class="gal-img" src="https://images.unsplash.com/photo-1567098260939-5d9cee055592?w=600&q=80" alt="Assam Landscape"></div>
@@ -846,13 +778,13 @@
 
 <!-- LOCATION -->
 <div id="location" class="location-wrap">
-  <div class="loc-info">
+  <div class="loc-info reveal">
     <p class="section-label">Find Us</p>
     <h2 class="section-title">Our <em>Location</em></h2>
     <p class="section-body">Conveniently located in Harmutty, just minutes from North Lakhimpur town — easily accessible by road from Dibrugarh, Jorhat, and nearby towns.</p>
     <div class="loc-details">
-      <div class="loc-row"><span class="loc-icon">📍</span><div class="loc-text"><strong>Address</strong>Harmutty, North Lakhimpur, Lakhimpur District, Assam — 784160</div></div>
-      <div class="loc-row"><span class="loc-icon">📞</span><div class="loc-text"><strong>Phone</strong>+91 91263 99328</div></div>
+      <div class="loc-row"><span class="loc-icon">📍</span><div class="loc-text"><strong>Address</strong>Harmutty, North Lakhimpur, Lakhimpur District, Assam — 787001</div></div>
+      <div class="loc-row"><span class="loc-icon">📞</span><div class="loc-text"><strong>Phone</strong>+91 XXXXX XXXXX</div></div>
       <div class="loc-row"><span class="loc-icon">✉️</span><div class="loc-text"><strong>Email</strong>info@tulipinnharmutty.com</div></div>
       <div class="loc-row"><span class="loc-icon">🕐</span><div class="loc-text"><strong>Check-in / Check-out</strong>Check-in: 12:00 PM &nbsp;|&nbsp; Check-out: 11:00 AM</div></div>
       <div class="loc-row"><span class="loc-icon">✈️</span><div class="loc-text"><strong>Nearest Airport</strong>Lilabari Airport (IXI), North Lakhimpur — approx. 10 km</div></div>
@@ -863,66 +795,9 @@
   </div>
 </div>
 
-<!-- BOOKING -->
-<div id="book" class="booking-wrap">
-  <p class="section-label">Reserve Your Stay</p>
-  <h2 class="section-title" style="color:var(--white); margin-bottom:8px;">Book <em style="color:var(--sage-lt);">Direct</em> & Save</h2>
-  <p style="color:rgba(255,255,255,0.55); font-size:0.9rem;">Best rates guaranteed when you book directly with us</p>
-  <div class="booking-form">
-    <div class="form-field">
-      <label class="form-label">Check-in</label>
-      <input class="form-input" id="bk-checkin" type="date">
-    </div>
-    <div class="form-field">
-      <label class="form-label">Check-out</label>
-      <input class="form-input" id="bk-checkout" type="date">
-    </div>
-    <div class="form-field">
-      <label class="form-label">Guests</label>
-      <input class="form-input" id="bk-guests" type="number" min="1" max="10" placeholder="2">
-    </div>
-    <div class="form-field" style="border-right:none;">
-      <label class="form-label">Room Type</label>
-      <select class="form-input" id="bk-room" style="background:transparent; border:none; color:rgba(255,255,255,0.7);">
-        <option value="Any Room" style="background:#1C2B25;">Any Room</option>
-        <option value="The Pansy" style="background:#1C2B25;">The Pansy</option>
-        <option value="The Lilac" style="background:#1C2B25;">The Lilac</option>
-        <option value="The Lily" style="background:#1C2B25;">The Lily</option>
-      </select>
-    </div>
-  </div>
-  <p style="color:rgba(255,255,255,0.4); font-size:0.75rem; margin-top:20px; margin-bottom:14px; letter-spacing:0.08em; text-transform:uppercase;">Send your inquiry via</p>
-  <div class="booking-actions">
-    <button class="bk-btn bk-wa" onclick="bookViaWhatsApp()">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
-      WhatsApp
-    </button>
-    <span class="bk-divider">or</span>
-    <button class="bk-btn bk-email" onclick="bookViaEmail()">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-      Email
-    </button>
-  </div>
-  <p class="booking-note" style="margin-top:22px;">Or call us: <a href="tel:+919126399328" style="color:var(--gold-lt);">+91 91263 99328</a></p>
-</div>
-
-<!-- CONTACT -->
-<div id="contact" class="contact-wrap">
-  <p class="section-label">Get In Touch</p>
-  <h2 class="section-title" style="text-align:center; max-width:500px; margin:0 auto 12px;">We'd Love to <em>Hear from You</em></h2>
-  <p class="section-body" style="margin:0 auto 48px; text-align:center;">Have questions? Need special arrangements? Our team is here to help.</p>
-  <div style="display:flex; flex-direction:column; gap:14px; max-width:480px; margin:0 auto;">
-    <input type="text" class="contact-input" placeholder="Your Name">
-    <input type="email" class="contact-input" placeholder="Email Address">
-    <input type="tel" class="contact-input" placeholder="Phone Number">
-    <textarea class="contact-input" rows="4" placeholder="Your Message" style="resize:vertical;"></textarea>
-    <button class="btn-primary" style="width:100%; padding:16px;" onclick="alert('Message sent! We will get back to you within 24 hours.')">Send Message</button>
-  </div>
-</div>
-
 <!-- PROPERTY RULES -->
 <div id="rules" class="rules-wrap">
-  <div class="rules-inner">
+  <div class="rules-inner reveal">
     <div class="rules-header">
       <p class="section-label">Know Before You Go</p>
       <h2 class="section-title">Property <em>Rules</em></h2>
@@ -946,9 +821,11 @@
 <!-- FAQ -->
 <div id="faq" class="faq-wrap">
   <div class="faq-inner">
-    <p class="section-label">Frequently Asked</p>
-    <h2 class="section-title">Questions & <em>Answers</em></h2>
-    <div class="faq-list">
+    <div class="reveal">
+      <p class="section-label">Frequently Asked</p>
+      <h2 class="section-title">Questions & <em>Answers</em></h2>
+    </div>
+    <div class="faq-list reveal">
 
       <div class="faq-item">
         <button class="faq-q" onclick="toggleFaq(this)">
@@ -986,20 +863,70 @@
   </div>
 </div>
 
+<!-- BOOKING -->
+<div id="book" class="booking-wrap">
+  <div class="reveal">
+    <p class="section-label">Reserve Your Stay</p>
+    <h2 class="section-title" style="color:var(--white); margin-bottom:8px;">Book <em style="color:var(--sage-lt);">Direct</em> & Save</h2>
+    <p style="color:rgba(255,255,255,0.55); font-size:0.95rem;">Best rates guaranteed when you book directly with us</p>
+  </div>
+  <div class="booking-form reveal">
+    <div class="form-field">
+      <label class="form-label">Check-in</label>
+      <input class="form-input" type="date">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Check-out</label>
+      <input class="form-input" type="date">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Guests</label>
+      <input class="form-input" type="number" min="1" max="10" placeholder="2 Guests">
+    </div>
+    <div class="form-field">
+      <label class="form-label">Room Type</label>
+      <select class="form-input">
+        <option value="">Any Room</option>
+        <option value="pansy">The Pansy</option>
+        <option value="lilac">The Lilac</option>
+        <option value="lily">The Lily</option>
+      </select>
+    </div>
+    <button class="booking-btn" onclick="alert('Thank you! Please call +91 XXXXX XXXXX or email us to confirm your booking.')">Check Availability</button>
+  </div>
+  <p class="booking-note">Or call us directly: <a href="tel:+91XXXXXXXXXX" style="color:var(--gold-lt); text-decoration:none;">+91 XXXXX XXXXX</a></p>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="contact-wrap">
+  <div class="reveal">
+    <p class="section-label">Get In Touch</p>
+    <h2 class="section-title" style="text-align:center; max-width:500px; margin:0 auto 12px;">We'd Love to <em>Hear from You</em></h2>
+    <p class="section-body" style="margin:0 auto 48px; text-align:center;">Have questions? Need special arrangements? Our team is here to help.</p>
+  </div>
+  <div class="contact-form reveal">
+    <input type="text" class="contact-input" placeholder="Your Name">
+    <input type="email" class="contact-input" placeholder="Email Address">
+    <input type="tel" class="contact-input" placeholder="Phone Number">
+    <textarea class="contact-input" rows="4" placeholder="Your Message" style="resize:vertical;"></textarea>
+    <button class="btn-primary" style="width:100%; padding:16px;" onclick="alert('Message sent! We will get back to you within 24 hours.')">Send Message</button>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-top">
     <div>
       <a href="#" class="footer-logo">Tulip <span>Inn</span></a>
       <p class="footer-tagline">A peaceful homestay in Harmutty, North Lakhimpur — homely warmth, attentive hospitality, and modern comfort all in one place.</p>
-      <div class="social-links" style="margin-top:24px;">
-        <a href="https://www.facebook.com/thetulippage/" target="_blank" rel="noopener" title="Facebook" aria-label="Facebook">
+      <div class="social-links">
+        <a href="#" title="Facebook" aria-label="Facebook">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
         </a>
-        <a href="https://www.instagram.com/thetulip___/?hl=en" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">
+        <a href="#" title="Instagram" aria-label="Instagram">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
         </a>
-        <a href="https://wa.me/919126399328" target="_blank" rel="noopener" title="WhatsApp" aria-label="WhatsApp">
+        <a href="#" title="WhatsApp" aria-label="WhatsApp">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
         </a>
       </div>
@@ -1028,7 +955,7 @@
       <ul class="footer-links">
         <li><a href="#">Harmutty, N. Lakhimpur</a></li>
         <li><a href="#">Assam — 784160</a></li>
-        <li><a href="tel:+919126399328">+91 91263 99328</a></li>
+        <li><a href="tel:+91XXXXXXXXXX">+91 XXXXX XXXXX</a></li>
         <li><a href="mailto:info@tulipinnharmutty.com">info@tulipinnharmutty.com</a></li>
       </ul>
     </div>
@@ -1040,50 +967,7 @@
 </footer>
 
 <script>
-  // BOOKING
-  function getBookingDetails() {
-    const checkin  = document.getElementById('bk-checkin').value;
-    const checkout = document.getElementById('bk-checkout').value;
-    const guests   = document.getElementById('bk-guests').value;
-    const room     = document.getElementById('bk-room').value;
-    if (!checkin || !checkout) {
-      alert('Please select your check-in and check-out dates.');
-      return null;
-    }
-    return { checkin, checkout, guests: guests || '2', room };
-  }
-  function bookViaWhatsApp() {
-    const d = getBookingDetails(); if (!d) return;
-    const msg = `Hello Tulip Inn! I'd like to book a stay.\n\n` +
-      `📅 Check-in: ${d.checkin}\n` +
-      `📅 Check-out: ${d.checkout}\n` +
-      `👥 Guests: ${d.guests}\n` +
-      `🛏️ Room: ${d.room}\n\n` +
-      `Please confirm availability and pricing. Thank you!`;
-    window.open('https://wa.me/919126399328?text=' + encodeURIComponent(msg), '_blank');
-  }
-  function bookViaEmail() {
-    const d = getBookingDetails(); if (!d) return;
-    const subject = `Booking Enquiry — Tulip Inn (${d.checkin} to ${d.checkout})`;
-    const body = `Hello,\n\nI would like to enquire about a booking at Tulip Inn.\n\n` +
-      `Check-in:  ${d.checkin}\nCheck-out: ${d.checkout}\nGuests:    ${d.guests}\nRoom:      ${d.room}\n\n` +
-      `Please confirm availability and share the rates.\n\nThank you!`;
-    window.location.href = `mailto:info@tulipinnharmutty.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  }
-
-  // MOBILE MENU
-  function toggleMobileMenu() {
-    const menu = document.getElementById('mobileMenu');
-    const btn = document.getElementById('hamburger');
-    menu.classList.toggle('open');
-    btn.classList.toggle('open');
-    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
-  }
-  function closeMobileMenu() {
-    document.getElementById('mobileMenu').classList.remove('open');
-    document.getElementById('hamburger').classList.remove('open');
-    document.body.style.overflow = '';
-  }
+  // --- ORIGINAL COMPONENT SCRIPTS ---
 
   // SLIDESHOW
   const slideshows = {};
@@ -1099,7 +983,7 @@
       dotsEl.appendChild(d);
     });
     slideshows[id] = { imgs, dots: dotsEl.querySelectorAll('.slide-dot'), current: 0 };
-    slideshows[id].timer = setInterval(() => slideMove(id, 1), 6000);
+    slideshows[id].timer = setInterval(() => slideMove(id, 1), 3500);
   }
   function goTo(id, idx) {
     const s = slideshows[id];
@@ -1109,38 +993,101 @@
     s.imgs[s.current].classList.add('active');
     s.dots[s.current].classList.add('active');
     clearInterval(s.timer);
-    s.timer = setInterval(() => slideMove(id, 1), 6000);
+    s.timer = setInterval(() => slideMove(id, 1), 3500);
   }
   function slideMove(id, dir) { goTo(id, slideshows[id].current + dir); }
   ['pansy','lilac','lily'].forEach(initSlideshow);
 
+  // FAQ
   function toggleFaq(btn) {
     const item = btn.closest('.faq-item');
     const isOpen = item.classList.contains('open');
     document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
     if (!isOpen) item.classList.add('open');
   }
+
+  // NAV SCROLL & MOBILE MENU
   const nav = document.getElementById('mainNav');
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 60);
   });
+
+  menuToggle.addEventListener('click', () => {
+    menuToggle.classList.toggle('active');
+    navLinks.classList.toggle('active');
+  });
+
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', e => {
       const target = document.querySelector(link.getAttribute('href'));
-      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Close mobile menu if open
+        if (menuToggle.classList.contains('active')) {
+          menuToggle.classList.remove('active');
+          navLinks.classList.remove('active');
+        }
+      }
     });
   });
+
+  // SCROLL ANIMATIONS
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; }
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
     });
   }, { threshold: 0.1 });
-  document.querySelectorAll('.room-card, .amenity-box, .gal-wrap').forEach(el => {
-    el.style.opacity = '0'; el.style.transform = 'translateY(24px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+
+  document.querySelectorAll('.reveal').forEach(el => {
     observer.observe(el);
   });
+
+  // --- MERGED PATCH SCRIPT (patch (3).js) ---
+
+  (function () {
+    /* Generated by Tulip Inn Image Picker */
+
+    const HERO    = "https://r1imghtlak.mmtcdn.com/03a63092-18c9-4020-98cd-784224e7b73d.jpg";
+    const ABOUT   = "https://r1imghtlak.mmtcdn.com/1cd63876-be67-45a8-bad5-21a82fb66ff1.jpg";
+    const GALLERY = [
+      "https://r1imghtlak.mmtcdn.com/13c6b024-4db2-46a8-8da7-f3af0d17a4d5.jpg",
+      "https://r1imghtlak.mmtcdn.com/11118c5d-296c-41cd-a098-07063b4ee652.jpg",
+      "https://r1imghtlak.mmtcdn.com/3acd5771-beda-4404-9d89-ea31ee45e602.jpg",
+      "https://r1imghtlak.mmtcdn.com/8cfe0d3a-5d80-4fa5-b5ce-34ae9141760f.jpg",
+      "https://r1imghtlak.mmtcdn.com/c5ffe8a3-cf95-4b67-90f0-b1568ea67257.jpg"
+    ];
+
+    /* -- Hero background -- */
+    if (HERO) {
+      const heroBg = document.querySelector(".hero-bg");
+      if (heroBg) {
+        const cur = getComputedStyle(heroBg).backgroundImage;
+        heroBg.style.backgroundImage = cur.includes("url(")
+          ? cur.replace(/url\(['"]?[^'"\)\s]+['"]?\)\s*$/, `url('${HERO}')`)
+          : `url('${HERO}')`;
+      }
+    }
+
+    /* -- About photo -- */
+    if (ABOUT) {
+      const aboutImg = document.querySelector(".about-img");
+      if (aboutImg) aboutImg.src = ABOUT;
+    }
+
+    /* -- Gallery images -- */
+    const galImgs = document.querySelectorAll(".gallery-grid .gal-img");
+    GALLERY.forEach(function (url, i) {
+      if (url && galImgs[i]) galImgs[i].src = url;
+    });
+
+  })();
 </script>
-<script src="patch.js" defer> </script>
 </body>
 </html>
+```
